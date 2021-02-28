@@ -7,7 +7,6 @@ import {
   incrementAsync,
   selectCount,
 } from './counterSlice';
-import styles from './Counter.module.css';
 
 export function Counter() {
   const count = useSelector(selectCount);
@@ -16,32 +15,33 @@ export function Counter() {
 
   return (
     <div>
-      <div className={styles.row}>
+      <div className="d-flex align-items-center justify-content-center mb-3">
         <button
-          className={styles.button}
+          className="btn btn-outline-primary btn-lg"
           aria-label="Increment value"
           onClick={() => dispatch(increment())}
         >
           +
         </button>
-        <span className={styles.value}>{count}</span>
+        <span className="px-3 mt-1 text fs-1">{count}</span>
         <button
-          className={styles.button}
+          className="btn btn-outline-primary btn-lg"
           aria-label="Decrement value"
           onClick={() => dispatch(decrement())}
         >
           -
         </button>
       </div>
-      <div className={styles.row}>
+      <div className="d-flex align-items-center justify-content-center mb-3">
         <input
-          className={styles.textbox}
+          className="form-control p-1 text-center me-2"
+          style={{ width: 64 }}
           aria-label="Set increment amount"
           value={incrementAmount}
           onChange={e => setIncrementAmount(e.target.value)}
         />
         <button
-          className={styles.button}
+          className="btn btn-light me-2"
           onClick={() =>
             dispatch(incrementByAmount(Number(incrementAmount) || 0))
           }
@@ -49,7 +49,7 @@ export function Counter() {
           Add Amount
         </button>
         <button
-          className={styles.asyncButton}
+          className="btn btn-light"
           onClick={() => dispatch(incrementAsync(Number(incrementAmount) || 0))}
         >
           Add Async
