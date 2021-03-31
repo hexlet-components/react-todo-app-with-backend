@@ -1,0 +1,33 @@
+---
+
+env:
+  browser: true
+  es2021: true
+  node: true
+
+extends:
+  - react-app
+  - airbnb
+  - plugin:jsx-a11y/recommended
+  - prettier
+
+plugins:
+  - jsx-a11y
+  - prettier
+
+rules:
+  react/jsx-filename-extension:
+    - 1
+    - extensions:
+      - ".js"
+      - ".jsx"
+  prettier/prettier:
+  - error
+  - singleQuote: true
+
+  import/extensions: 0
+  no-console: 0
+
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module
