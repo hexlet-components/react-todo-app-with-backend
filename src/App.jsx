@@ -1,11 +1,8 @@
 // @ts-check
 
 import React from 'react';
+import TodoApp from './containers/index.js';
 
-import { TodoApp } from './containers/index.js';
-
-const App = () => {
-  return <TodoApp />;
-};
+const App = () => <TodoApp />;
 
 export default App;

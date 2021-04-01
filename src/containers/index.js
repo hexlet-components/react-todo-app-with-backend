@@ -1,3 +1,5 @@
 // @ts-check
 
-export { default as TodoApp } from './TodoApp/index.jsx';
+import TodoApp from './TodoApp/index.jsx';
+
+export default TodoApp;
