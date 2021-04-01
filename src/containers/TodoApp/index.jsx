@@ -8,7 +8,9 @@ import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 
 const TodoApp = () => {
+  // @ts-ignore
   const { tasks } = useSelector((state) => state.tasks);
+  // @ts-ignore
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
 
