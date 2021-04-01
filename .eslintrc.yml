@@ -6,7 +6,6 @@ env:
   node: true
 
 extends:
-  - react-app
   - airbnb
   - plugin:jsx-a11y/recommended
   - prettier
@@ -16,17 +15,24 @@ plugins:
   - prettier
 
 rules:
+  no-console: 0
+  import/extensions: 0
   react/jsx-filename-extension:
     - 1
     - extensions:
       - ".js"
       - ".jsx"
   prettier/prettier:
-  - error
-  - singleQuote: true
+    - error
+    - singleQuote: true
+      trailingComma: "es5"
+      tabWidth: 2
 
-  import/extensions: 0
-  no-console: 0
+overrides:
+  - files:
+      - 'src/serviceWorker.js'
+    rules:
+      no-use-before-define: 'off'
 
 parserOptions:
   ecmaVersion: 12

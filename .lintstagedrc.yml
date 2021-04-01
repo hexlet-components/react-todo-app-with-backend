@@ -1,2 +1,3 @@
 ---
-   "*.{js,jsx}": "eslint --fix"
+
+  "*.{js,jsx}": "eslint --fix --ext .jsx,.js"
