@@ -24,7 +24,7 @@ const Task = ({
           />
           <span className="fs-5">{handledText}</span>
         </div>
-        <div className="col-4" align="end">
+        <div className="col-4 d-flex justify-content-end">
           <button
             onClick={handleRemoveTask(id)}
             className="btn btn-danger"
