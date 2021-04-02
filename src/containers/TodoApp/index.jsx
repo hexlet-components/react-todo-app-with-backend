@@ -2,8 +2,11 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { uniqueId } from 'lodash';
+// import { uniqueId } from 'lodash';
 
+import axios from 'axios';
+
+import routes from '../../routes.js';
 import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 
@@ -15,40 +18,111 @@ const TodoApp = () => {
   const dispatch = useDispatch();
 
   const {
+    // listsActions: { initLists, addList, removeList, selectList },
     tasksActions: { initTasks, addTask, removeTask, toggleTaskState },
     textActions: { updateText },
   } = actions;
-
-  useEffect(() => {
-    const url = '/api/tasks';
-    
-    fetch(url)
-      .then((res) => res.json())
-      .then((tasks) => {
-        console.log(tasks)
-        dispatch(initTasks(tasks));
-      })
-      .catch((e) => {
-        console.error(e); 
-      });
-  }, [dispatch, initTasks])
 
   const handleUpdateText = ({ target: { value } }) => {
     dispatch(updateText({ newText: value }));
   };
 
-  const handleRemoveTask = (id) => () => {
-    dispatch(removeTask({ id }));
-  };
+  // useEffect(() => {
+  //   const url = routes.lists();
+  //   axios
+  //     .get(url)
+  //     .then((res) => {
+  //       console.log(res.data)
+  //       dispatch(initLists(res.data));
+  //     })
+  //     .catch((e) => {
+  //       console.error(e); 
+  //     });
+  // }, [dispatch, initLists])
 
-  const handleToggleTaskState = (id) => () => {
-    dispatch(toggleTaskState({ id }));
-  };
+  
+  // const handleAddList = (evt) => {
+  //   evt.preventDefault();
+  //   const url = routes.lists();
+  //   axios
+  //     .post(url, { text: 'list' })
+  //     .then((res) => {
+  //       console.log(res.data)
+  //       dispatch(addList(res.data));
+  //     })
+  //     .catch((e) => {
+  //       console.error(e); 
+  //     });
+  // };
+
+  // const handleRemoveList = (id) => () => {
+  //   const url = routes.list(id);
+  //   axios
+  //     .delete(url)
+  //     .then((res) => {
+  //       console.log(res)
+  //       dispatch(removeList({ id }));
+  //     })
+  //     .catch((e) => {
+  //       console.error(e); 
+  //     });
+  // };
+
+  // const handleSelectList = (id) => () => {
+  //   dispatch(selectList({ id }));
+  // };
+
+  useEffect(() => {
+    const url = currentListId ? routes.listTasks(currentListId) : routes.tasks();
+    axios
+      .get(url)
+      .then((res) => {
+        console.log(res.data)
+        dispatch(initTasks(res.data));
+      })
+      .catch((e) => {
+        console.error(e); 
+      });
+  }, [dispatch, initTasks, currentListId])
 
   const handleAddTask = (evt) => {
     evt.preventDefault();
-    const task = { text, completed: false, id: uniqueId() };
-    dispatch(addTask({ task }));
+    const url = routes.tasks();
+    axios
+      .post(url, { text, listId: currentListId })
+      .then((res) => {
+        console.log(res.data)
+        dispatch(addTask(res.data));
+      })
+      .catch((e) => {
+        console.error(e); 
+      });
+  };
+
+  const handleRemoveTask = (id) => () => {
+    const url = routes.task(id);
+    axios
+      .delete(url)
+      .then((res) => {
+        console.log(res)
+        dispatch(removeTask({ id }));
+      })
+      .catch((e) => {
+        console.error(e); 
+      });
+  };
+
+  const handleToggleTaskState = (task) => () => {
+    const url = routes.task(task.id);
+    axios
+    .patch(url, { completed: !task.completed })
+    .then((res) => {
+      console.log(res)
+      dispatch(toggleTaskState(res.data));
+    })
+    .catch((e) => {
+      console.error(e); 
+    });
   };
 
   const buildTask = ({ text: currentText, id, completed }) => (

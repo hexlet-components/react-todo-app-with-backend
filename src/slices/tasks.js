@@ -15,11 +15,12 @@ const slice = createSlice({
       state.tasks.unshift(task);
     },
     removeTask: (state, { payload }) => {
-      state.tasks = state.tasks.filter(({ id }) => id !== payload.id);
+      console.log(payload)
+      state.tasks = state.tasks.filter((task) => task.id !== payload.id);
     },
-    toggleTaskState: (state, { payload }) => {
-      const currentItem = state.tasks.find(({ id }) => id === payload.id);
-      currentItem.completed = !currentItem.completed;
+    toggleTaskState: (state, { payload: { task } }) => {
+      const currentItem = state.tasks.find(({ id }) => id === task.id);
+      currentItem.completed = task.completed;
     },
   },
 });

@@ -48,12 +48,9 @@ const server = () => {
     },
 
     seeds(server) {
-
       server.createList("list", 2);
-
       server.createList("task", 4, { listId: 1 });
       server.createList("task", 3, { listId: 2 });
-
     },
 
     routes() {
@@ -78,6 +75,18 @@ const server = () => {
       this.post("/api/lists", (schema, request) => {
         let attrs = JSON.parse(request.requestBody);
         return schema.lists.create(attrs);
+      });
+
+      this.patch("/api/lists/:id", (schema, request) => {
+        const id = request.params.id;
+        const newAttrs = JSON.parse(request.requestBody)
+        return schema.lists.find(id).update(newAttrs);
+      });
+
+      this.patch("/api/tasks/:id", (schema, request) => {
+        const id = request.params.id;
+        const newAttrs = JSON.parse(request.requestBody)
+        return schema.tasks.find(id).update(newAttrs);
       });
 
       this.delete("/api/tasks/:id", (schema, request) => {
