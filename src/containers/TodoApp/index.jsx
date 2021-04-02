@@ -1,6 +1,6 @@
 // @ts-check
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { uniqueId } from 'lodash';
 
@@ -15,9 +15,23 @@ const TodoApp = () => {
   const dispatch = useDispatch();
 
   const {
-    tasksActions: { addTask, removeTask, toggleTaskState },
+    tasksActions: { initTasks, addTask, removeTask, toggleTaskState },
     textActions: { updateText },
   } = actions;
+
+  useEffect(() => {
+    const url = '/api/tasks';
+    
+    fetch(url)
+      .then((res) => res.json())
+      .then((tasks) => {
+        console.log(tasks)
+        dispatch(initTasks(tasks));
+      })
+      .catch((e) => {
+        console.error(e); 
+      });
+  }, [dispatch, initTasks])
 
   const handleUpdateText = ({ target: { value } }) => {
     dispatch(updateText({ newText: value }));
