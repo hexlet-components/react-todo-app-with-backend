@@ -23,6 +23,12 @@ rules:
     - extensions:
       - ".js"
       - ".jsx"
+  no-param-reassign:
+    - error
+    - props: true
+      ignorePropertyModificationsFor:
+      - state
+
   prettier/prettier:
     - error
     - singleQuote: true
