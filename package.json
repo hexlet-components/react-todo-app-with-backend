@@ -23,6 +23,9 @@
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --fix --ext .jsx,.js"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
