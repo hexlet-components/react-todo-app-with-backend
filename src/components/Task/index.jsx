@@ -1,7 +1,6 @@
 // @ts-check
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const Task = ({
   text,
@@ -36,14 +35,6 @@ const Task = ({
       </div>
     </li>
   );
-};
-
-Task.propTypes = {
-  text: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  completed: PropTypes.bool.isRequired,
-  handleRemoveTask: PropTypes.func.isRequired,
-  handleToggleTaskState: PropTypes.func.isRequired,
 };
 
 export default Task;
