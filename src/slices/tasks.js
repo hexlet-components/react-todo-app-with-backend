@@ -1,5 +1,4 @@
 // @ts-check
-/* eslint no-param-reassign: 0 */
 
 import { createSlice } from '@reduxjs/toolkit';
 
