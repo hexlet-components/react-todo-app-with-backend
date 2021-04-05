@@ -14,17 +14,12 @@ const server = () => {
         include: ["list"],
         embed: true,
       }),
-      list: RestSerializer.extend({
-        include: ["tasks"],
-        embed: true,
-      }),
     },
 
     models: {
       list: Model.extend({
         tasks: hasMany(),
       }),
-
       task: Model.extend({
         list: belongsTo(),
       }),
@@ -36,7 +31,6 @@ const server = () => {
           return `List ${i + 1}`;
         },
       }),
-
       task: Factory.extend({
         text(i) {
           return `Task ${i + 1}`;
@@ -54,13 +48,23 @@ const server = () => {
     },
 
     routes() {
-      this.get("/api/lists", (schema, request) => {
+      this.get("/api/lists", (schema) => {
         return schema.lists.all();
       });
 
+      this.get("/api/lists/:id", (schema, request) => {
+        const id = request.params.id;
+        return schema.lists.find(id);
+      });
+
       this.get("/api/lists/:id/tasks", (schema, request) => {
-        let list = schema.lists.find(request.params.id);
+        const list = schema.lists.find(request.params.id);
         return list.tasks;
+      });
+
+      this.get("/api/tasks/:id", (schema, request) => {
+        const id = request.params.id;
+        return schema.tasks.find(id);
       });
 
       this.get("/api/tasks", (schema) => {
@@ -68,12 +72,12 @@ const server = () => {
       });
 
       this.post("/api/tasks", (schema, request) => {
-        let attrs = JSON.parse(request.requestBody);
+        const attrs = JSON.parse(request.requestBody);
         return schema.tasks.create(attrs);
       });
 
       this.post("/api/lists", (schema, request) => {
-        let attrs = JSON.parse(request.requestBody);
+        const attrs = JSON.parse(request.requestBody);
         return schema.lists.create(attrs);
       });
 
@@ -90,13 +94,13 @@ const server = () => {
       });
 
       this.delete("/api/tasks/:id", (schema, request) => {
-        let id = request.params.id;
+        const id = request.params.id;
         return schema.tasks.find(id).destroy();
       });
 
       this.delete("/api/lists/:id", (schema, request) => {
-        let id = request.params.id;
-        let list = schema.lists.find(id);
+        const id = request.params.id;
+        const list = schema.lists.find(id);
         list.tasks.destroy();
         return list.destroy();
       });

@@ -77,11 +77,11 @@ const TodoApp = () => {
     axios
       .get(url)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         dispatch(initTasks(res.data));
       })
       .catch((e) => {
-        console.error(e); 
+        console.error(e);
       });
   }, [dispatch, initTasks, currentListId])
 
@@ -91,11 +91,11 @@ const TodoApp = () => {
     axios
       .post(url, { text, listId: currentListId })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         dispatch(addTask(res.data));
       })
       .catch((e) => {
-        console.error(e); 
+        console.error(e);
       });
   };
 
@@ -115,14 +115,14 @@ const TodoApp = () => {
   const handleToggleTaskState = (task) => () => {
     const url = routes.task(task.id);
     axios
-    .patch(url, { completed: !task.completed })
-    .then((res) => {
-      console.log(res)
-      dispatch(toggleTaskState(res.data));
-    })
-    .catch((e) => {
-      console.error(e); 
-    });
+      .patch(url, { completed: !task.completed })
+      .then((res) => {
+        console.log(res)
+        dispatch(toggleTaskState(res.data));
+      })
+      .catch((e) => {
+        console.error(e); 
+      });
   };
 
   const buildTask = ({ text: currentText, id, completed }) => (
