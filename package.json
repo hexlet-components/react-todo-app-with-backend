@@ -20,7 +20,8 @@
     "lint": "npx eslint --ext .jsx,.js ./src/",
     "lint-fix": "npx eslint --fix --ext .jsx,.js ./src/",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "npx prettier --write ./ && npx lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --fix --ext .jsx,.js"

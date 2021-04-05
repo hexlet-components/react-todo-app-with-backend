@@ -1,5 +1,4 @@
 ---
-
 env:
   browser: true
   es2021: true
@@ -21,18 +20,18 @@ rules:
   react/jsx-filename-extension:
     - 1
     - extensions:
-      - ".js"
-      - ".jsx"
+        - '.js'
+        - '.jsx'
   no-param-reassign:
     - error
     - props: true
       ignorePropertyModificationsFor:
-      - state
+        - state
 
   prettier/prettier:
     - error
     - singleQuote: true
-      trailingComma: "es5"
+      trailingComma: 'es5'
       tabWidth: 2
 
 overrides:

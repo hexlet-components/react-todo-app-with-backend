@@ -4,13 +4,13 @@
 
 ## Участие
 
-* Обсуждение в канале [#hexlet-volunteers](https://slack-ru.hexlet.io) слака
+- Обсуждение в канале [#hexlet-volunteers](https://slack-ru.hexlet.io) слака
 
 ## Системные требования
 
-* Node.js >= 14
-* npm >= 7
-* make >= 4 (optional)
+- Node.js >= 14
+- npm >= 7
+- make >= 4 (optional)
 
 ## Установка
 
