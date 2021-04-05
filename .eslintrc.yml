@@ -1,0 +1,46 @@
+---
+
+env:
+  browser: true
+  es2021: true
+  node: true
+
+extends:
+  - airbnb
+  - plugin:jsx-a11y/recommended
+  - prettier
+
+plugins:
+  - jsx-a11y
+  - prettier
+
+rules:
+  no-console: 0
+  import/extensions: 0
+  react/prop-types: 0
+  react/jsx-filename-extension:
+    - 1
+    - extensions:
+      - ".js"
+      - ".jsx"
+  no-param-reassign:
+    - error
+    - props: true
+      ignorePropertyModificationsFor:
+      - state
+
+  prettier/prettier:
+    - error
+    - singleQuote: true
+      trailingComma: "es5"
+      tabWidth: 2
+
+overrides:
+  - files:
+      - 'src/serviceWorker.js'
+    rules:
+      no-use-before-define: 'off'
+
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module

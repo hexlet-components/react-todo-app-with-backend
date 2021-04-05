@@ -8,7 +8,9 @@ import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 
 const TodoApp = () => {
+  // @ts-ignore
   const { tasks } = useSelector((state) => state.tasks);
+  // @ts-ignore
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
 
@@ -35,12 +37,12 @@ const TodoApp = () => {
     dispatch(addTask({ task }));
   };
 
-  const handleTask = ({ text, id, completed }) => (
+  const buildTask = ({ text: currentText, id, completed }) => (
     <Task
       handleToggleTaskState={handleToggleTaskState}
       handleRemoveTask={handleRemoveTask}
       key={id}
-      text={text}
+      text={currentText}
       id={id}
       completed={completed}
     />
@@ -53,8 +55,14 @@ const TodoApp = () => {
           <div className="card card-white">
             <div className="card-body">
               <h3>Hexlet Todos</h3>
-              <Panel handleAddTask={handleAddTask} handleUpdateText={handleUpdateText} text={text} />
-              {tasks.length > 0 && <ul className="list-group">{tasks.map(handleTask)}</ul>}
+              <Panel
+                handleAddTask={handleAddTask}
+                handleUpdateText={handleUpdateText}
+                text={text}
+              />
+              {tasks.length > 0 && (
+                <ul className="list-group">{tasks.map(buildTask)}</ul>
+              )}
             </div>
           </div>
         </div>

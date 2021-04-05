@@ -15,7 +15,11 @@ const Panel = ({ handleAddTask, handleUpdateText, text }) => {
           className="form-control"
           placeholder="Please type text..."
         />
-        <button disabled={isDisabled} className="btn btn-lg btn-outline-success" type="submit">
+        <button
+          disabled={isDisabled}
+          className="btn btn-lg btn-outline-success"
+          type="submit"
+        >
           Add
         </button>
       </div>
