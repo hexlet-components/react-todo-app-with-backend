@@ -11,6 +11,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import store from './slices/index.js';
 
+import runServer from './server.js';
+
+runServer();
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

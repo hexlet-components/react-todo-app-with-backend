@@ -15,7 +15,6 @@ const slice = createSlice({
       state.tasks.unshift(task);
     },
     removeTask: (state, { payload }) => {
-      console.log(payload)
       state.tasks = state.tasks.filter((task) => task.id !== payload.id);
     },
     toggleTaskState: (state, { payload: { task } }) => {

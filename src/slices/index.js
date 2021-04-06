@@ -17,5 +17,5 @@ const reducer = combineReducers({
 export { actions };
 
 export default configureStore({
-  reducer
+  reducer,
 });

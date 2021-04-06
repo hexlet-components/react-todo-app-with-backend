@@ -2,14 +2,8 @@
 
 import React from 'react';
 
-const Task = ({
-  text,
-  id,
-  completed,
-  handleRemoveTask,
-  handleToggleTaskState,
-}) => {
-  const handledText = completed ? <s>{text}</s> : text;
+const Task = ({ task, handleRemoveTask, handleToggleTaskState }) => {
+  const handledText = task.completed ? <s>{task.text}</s> : task.text;
 
   return (
     <li className="list-group-item container">
@@ -18,14 +12,14 @@ const Task = ({
           <input
             className="me-2"
             type="checkbox"
-            value={completed}
-            onChange={handleToggleTaskState(id)}
+            value={task.completed}
+            onChange={handleToggleTaskState(task)}
           />
           <span className="fs-5">{handledText}</span>
         </div>
         <div className="col-4 d-flex justify-content-end">
           <button
-            onClick={handleRemoveTask(id)}
+            onClick={handleRemoveTask(task)}
             className="btn btn-danger"
             type="button"
           >
