@@ -49,6 +49,8 @@ const server = () =>
     },
 
     routes() {
+      this.timing = 2000;
+
       this.get('/api/lists', (schema) => schema.lists.all());
 
       this.get('/api/lists/:id', (schema, request) => {
