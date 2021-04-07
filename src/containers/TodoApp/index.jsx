@@ -11,31 +11,20 @@ import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 
 const sortTasks = (prevTask, nextTask) => {
-  const prevTaskId = Number(prevTask.id);
-  const nextTaskId = Number(nextTask.id);
-  return prevTaskId - nextTaskId;
+  const prevTaskStatus = prevTask.completed;
+  const nextTaskStatus = nextTask.completed;
+  return prevTaskStatus - nextTaskStatus;
 };
 
 const initialTasksSelector = (state) => state.tasks.tasks;
 
-const activeTasksSelector = createSelector(initialTasksSelector, (tasks) => {
-  const activeTasks = tasks.filter((task) => !task.completed).sort(sortTasks);
-  return activeTasks;
+const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
+  const sortedTasks = [...tasks].sort(sortTasks);
+  return sortedTasks;
 });
-
-const completedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
-  const completedTasks = tasks.filter((task) => task.completed).sort(sortTasks);
-  return completedTasks;
-});
-
-const tasksSelector = createSelector(
-  activeTasksSelector,
-  completedTasksSelector,
-  (activeTasks, completedTasks) => [...activeTasks, ...completedTasks]
-);
 
 const TodoApp = () => {
-  const tasks = useSelector(tasksSelector);
+  const tasks = useSelector(sortedTasksSelector);
   const { currentListId } = useSelector((state) => state.lists);
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
