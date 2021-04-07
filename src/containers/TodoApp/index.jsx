@@ -3,25 +3,20 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import axios from 'axios';
-
-import routes from '../../routes.js';
 import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
-import {
-  addTaskThunk,
-  removeTaskThunk,
-  toggleTaskStateThunk,
-} from '../../slices/tasks.js';
+import { tasksSelectors, tasksThunks } from '../../slices/tasks.js';
+
+import { listsSelectors, listsThunks } from '../../slices/lists.js';
 
 const TodoApp = () => {
-  const { tasks } = useSelector((state) => state.tasks);
-  const { currentListId } = useSelector((state) => state.lists);
+  const tasks = useSelector(tasksSelectors.selectAll);
+  // const lists = useSelector(listsSelectors.selectAll);
+  const currentListId = useSelector(listsSelectors.selectCurrentListId);
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
 
   const {
-    tasksActions: { initTasks },
     textActions: { updateText },
   } = actions;
 
@@ -30,45 +25,46 @@ const TodoApp = () => {
   };
 
   useEffect(() => {
-    const url = currentListId
-      ? routes.listTasks(currentListId)
-      : routes.tasks();
-    axios
-      .get(url)
-      .then((res) => {
-        console.log('useEffect tasks res.data', res.data);
-        dispatch(initTasks(res.data));
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  }, [dispatch, initTasks, currentListId]);
+    try {
+      dispatch(listsThunks.fetchLists());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
 
-  const handleAddTask = async (evt) => {
+  useEffect(() => {
+    try {
+      // eslint-disable-next-line no-unused-expressions
+      currentListId
+        ? dispatch(tasksThunks.fetchTasksByListId({ currentListId }))
+        : dispatch(tasksThunks.fetchAllTasks());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch, currentListId]);
+
+  const handleAddTask = (evt) => {
     evt.preventDefault();
     try {
-      const res = await dispatch(addTaskThunk({ text, listId: currentListId }));
-      console.log('handleAddTask res', res);
+      dispatch(tasksThunks.addTask({ text, listId: currentListId }));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleRemoveTask = (task) => async () => {
+  const handleRemoveTask = (task) => () => {
     try {
-      const res = await dispatch(removeTaskThunk({ id: task.id }));
-      console.log('handleRemoveTask res', res);
+      dispatch(tasksThunks.removeTask({ id: task.id }));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleToggleTaskState = (task) => async () => {
+  const handleToggleTaskState = (task) => () => {
     try {
-      const res = await dispatch(
-        toggleTaskStateThunk({ id: task.id, completed: !task.completed })
+      dispatch(
+        tasksThunks.updateTask({ id: task.id, completed: !task.completed })
       );
-      console.log('handleToggleTaskState res', res);
     } catch (error) {
       console.log(error);
     }

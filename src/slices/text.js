@@ -2,7 +2,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-import { addTaskThunk } from './tasks.js';
+import { addTask } from './tasks.js';
 
 const slice = createSlice({
   name: 'text',
@@ -15,7 +15,7 @@ const slice = createSlice({
     },
   },
   extraReducers: {
-    [addTaskThunk.fulfilled]: (state) => {
+    [addTask.fulfilled]: (state) => {
       state.text = '';
     },
   },
