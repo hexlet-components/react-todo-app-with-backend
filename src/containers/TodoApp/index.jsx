@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 
 import axios from 'axios';
 
@@ -9,8 +10,21 @@ import routes from '../../routes.js';
 import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 
+const sortTasks = (prevTask, nextTask) => {
+  const prevTaskStatus = prevTask.completed;
+  const nextTaskStatus = nextTask.completed;
+  return prevTaskStatus - nextTaskStatus;
+};
+
+const initialTasksSelector = (state) => state.tasks.tasks;
+
+const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
+  const sortedTasks = [...tasks].sort(sortTasks);
+  return sortedTasks;
+});
+
 const TodoApp = () => {
-  const { tasks } = useSelector((state) => state.tasks);
+  const tasks = useSelector(sortedTasksSelector);
   const { currentListId } = useSelector((state) => state.lists);
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
