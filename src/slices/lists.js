@@ -1,29 +1,22 @@
-/* eslint-disable prettier/prettier */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import routes from '../routes.js';
 import adapter from './adapter.js';
 
-export const fetchLists = createAsyncThunk(
-  'lists/fetchLists',
-  async () => {
-    const url = routes.lists();
-    const response = await axios.get(url);
-    console.log('fetchListsThunk response.data -', response.data);
-    return response.data.lists;
-  }
-);
+export const fetchLists = createAsyncThunk('lists/fetchLists', async () => {
+  const url = routes.lists();
+  const response = await axios.get(url);
+  console.log('fetchListsThunk response.data -', response.data);
+  return response.data.lists;
+});
 
-export const addList = createAsyncThunk(
-  'lists/addList',
-  async ({ text }) => {
-    const url = routes.lists();
-    const response = await axios.post(url, { text });
-    console.log('addListThunk response.data -', response.data);
-    return response.data.list;
-  }
-);
+export const addList = createAsyncThunk('lists/addList', async ({ text }) => {
+  const url = routes.lists();
+  const response = await axios.post(url, { text });
+  console.log('addListThunk response.data -', response.data);
+  return response.data.list;
+});
 
 export const removeList = createAsyncThunk(
   'lists/removeList',
@@ -38,7 +31,7 @@ export const removeList = createAsyncThunk(
 const slice = createSlice({
   name: 'lists',
   initialState: adapter.getInitialState({
-    currentListId: null,
+    currentListId: 1,
   }),
   reducers: {
     selectList: (state, { payload }) => {

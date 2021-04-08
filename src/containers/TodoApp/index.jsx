@@ -47,10 +47,7 @@ const TodoApp = () => {
 
   useEffect(() => {
     try {
-      // eslint-disable-next-line no-unused-expressions
-      currentListId
-        ? dispatch(tasksThunks.fetchTasksByListId({ currentListId }))
-        : dispatch(tasksThunks.fetchAllTasks());
+      dispatch(tasksThunks.fetchTasksByListId({ currentListId }));
     } catch (error) {
       console.log(error);
     }
