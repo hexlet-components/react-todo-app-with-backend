@@ -6,9 +6,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
-import { tasksThunks } from '../../slices/tasks.js';
-
-import { listsThunks } from '../../slices/lists.js';
+import { tasksThunks, tasksSelectors } from '../../slices/tasks.js';
+import { listsThunks, listsSelectors } from '../../slices/lists.js';
 
 const sortTasks = (prevTask, nextTask) => {
   const prevTaskStatus = prevTask.completed;
@@ -16,7 +15,7 @@ const sortTasks = (prevTask, nextTask) => {
   return prevTaskStatus - nextTaskStatus;
 };
 
-const initialTasksSelector = (state) => state.tasks.tasks;
+const initialTasksSelector = tasksSelectors.selectAll;
 
 const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
   const sortedTasks = [...tasks].sort(sortTasks);
@@ -25,7 +24,7 @@ const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
 
 const TodoApp = () => {
   const tasks = useSelector(sortedTasksSelector);
-  const { currentListId } = useSelector((state) => state.lists);
+  const currentListId = useSelector(listsSelectors.selectCurrentListId);
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
 

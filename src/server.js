@@ -44,7 +44,7 @@ const server = () =>
     // eslint-disable-next-line no-shadow
     seeds(server) {
       server.createList('list', 2);
-      server.createList('task', 2, { listId: 1 });
+      server.createList('task', 4, { listId: 1 });
       server.createList('task', 3, { listId: 2 });
     },
 
