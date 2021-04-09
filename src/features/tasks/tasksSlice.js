@@ -24,8 +24,11 @@ const slice = createSlice({
   },
 });
 
-const actions = { ...slice.actions };
-
-export { actions };
+export const {
+  initTasks,
+  addTask,
+  removeTask,
+  toggleTaskState,
+} = slice.actions;
 
 export default slice.reducer;

@@ -5,10 +5,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
 import axios from 'axios';
+import routes from '../common/routes.js';
+import Panel from '../features/taskForm/Panel.jsx';
+import Task from '../features/tasks/Task.jsx';
 
-import routes from '../../routes.js';
-import { Panel, Task } from '../../components/index.js';
-import { actions } from '../../slices/index.js';
+// import { initLists, addList, removeList, selectList } from '../features/currentListId/listsSlice.js'
+import {
+  initTasks,
+  addTask,
+  removeTask,
+  toggleTaskState,
+} from '../features/tasks/tasksSlice.js';
+import { updateText } from '../features/taskForm/textSlice.js';
 
 const sortTasks = (prevTask, nextTask) => {
   const prevTaskStatus = prevTask.completed;
@@ -23,17 +31,11 @@ const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
   return sortedTasks;
 });
 
-const TodoApp = () => {
+const App = () => {
   const tasks = useSelector(sortedTasksSelector);
   const { currentListId } = useSelector((state) => state.lists);
   const { text } = useSelector((state) => state.text);
   const dispatch = useDispatch();
-
-  const {
-    // listsActions: { initLists, addList, removeList, selectList },
-    tasksActions: { initTasks, addTask, removeTask, toggleTaskState },
-    textActions: { updateText },
-  } = actions;
 
   const handleUpdateText = ({ target: { value } }) => {
     dispatch(updateText({ newText: value }));
@@ -170,4 +172,4 @@ const TodoApp = () => {
   );
 };
 
-export default TodoApp;
+export default App;

@@ -25,8 +25,6 @@ const slice = createSlice({
   },
 });
 
-const actions = { ...slice.actions };
-
-export { actions };
+export const { initLists, addList, removeList, selectList } = slice.actions;
 
 export default slice.reducer;

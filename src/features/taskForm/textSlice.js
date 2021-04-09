@@ -1,8 +1,7 @@
 // @ts-check
 
 import { createSlice } from '@reduxjs/toolkit';
-
-import { actions as tasksActions } from './tasks.js';
+import { addTask } from '../tasks/tasksSlice.js';
 
 const slice = createSlice({
   name: 'text',
@@ -15,14 +14,12 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(tasksActions.addTask, (state) => {
+    builder.addCase(addTask, (state) => {
       state.text = '';
     });
   },
 });
 
-const actions = { ...slice.actions };
-
-export { actions };
+export const { updateText } = slice.actions;
 
 export default slice.reducer;
