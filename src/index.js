@@ -1,26 +1,19 @@
-// @ts-check
-
-import React from 'react';
+// import gon from 'gon'; // если понадобиться прокинуть preloadedState в createStore
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
-import * as serviceWorker from './serviceWorker.js';
-
-import App from './App.jsx';
+import init from './app/init.jsx';
+import runServer from './common/server.js';
+import * as serviceWorker from './common/serviceWorker.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import store from './slices/index.js';
-
-import runServer from './server.js';
 
 runServer();
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-);
+/* init() принимает не обязательные аргументы:
+preloadedState
+middleaware */
+const vdom = init();
+const container = document.getElementById('root');
+
+ReactDOM.render(vdom, container);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
