@@ -1,8 +1,8 @@
-// @ts-check
+// @ts-nocheck
 
 import { createSlice } from '@reduxjs/toolkit';
 
-import { actions as tasksActions } from './tasks.js';
+import { addTask } from './tasks.js';
 
 const slice = createSlice({
   name: 'text',
@@ -14,10 +14,10 @@ const slice = createSlice({
       state.text = newText;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(tasksActions.addTask, (state) => {
+  extraReducers: {
+    [addTask.fulfilled]: (state) => {
       state.text = '';
-    });
+    },
   },
 });
 
