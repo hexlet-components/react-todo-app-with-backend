@@ -1,9 +1,22 @@
-// @ts-nocheck
+// @ts-check
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
+import axios from 'axios';
+import routes from '../common/routes.js';
+import Panel from '../features/taskForm/Panel.jsx';
+import Task from '../features/tasks/Task.jsx';
+
+// import { initLists, addList, removeList, selectList } from '../features/currentListId/listsSlice.js'
+import {
+  initTasks,
+  addTask,
+  removeTask,
+  toggleTaskState,
+} from '../features/tasks/tasksSlice.js';
+import { updateText } from '../features/taskForm/textSlice.js';
 import { Panel, Task } from '../../components/index.js';
 import { actions } from '../../slices/index.js';
 import { tasksThunks, tasksSelectors } from '../../slices/tasks.js';
@@ -22,7 +35,7 @@ const sortedTasksSelector = createSelector(initialTasksSelector, (tasks) => {
   return sortedTasks;
 });
 
-const TodoApp = () => {
+const App = () => {
   const tasks = useSelector(sortedTasksSelector);
   const currentListId = useSelector(listsSelectors.selectCurrentListId);
   const { text } = useSelector((state) => state.text);
@@ -111,4 +124,4 @@ const TodoApp = () => {
   );
 };
 
-export default TodoApp;
+export default App;
