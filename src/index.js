@@ -1,16 +1,18 @@
-// import gon from 'gon'; // если понадобиться прокинуть preloadedState в createStore
 import ReactDOM from 'react-dom';
 import init from './app/init.jsx';
-import runServer from './common/server.js';
-import * as serviceWorker from './common/serviceWorker.js';
+import runMock from './api/mock.js';
+import * as serviceWorker from './serviceWorker.js';
+import createStore from './store';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-runServer();
+if (process.env.NODE_ENV === 'development') {
+  runMock();
+}
 
-/* init() принимает не обязательные аргументы:
-preloadedState
-middleaware */
-const vdom = init();
+const store = createStore();
+
+const vdom = init(store);
 const container = document.getElementById('root');
 
 ReactDOM.render(vdom, container);

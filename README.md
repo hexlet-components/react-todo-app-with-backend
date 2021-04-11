@@ -16,7 +16,7 @@
 
 ```shell
 make setup
-make start # running server on localhost
+make start # running mock on localhost
 ```
 
 ---

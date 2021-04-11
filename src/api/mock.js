@@ -6,13 +6,15 @@ import {
   createServer,
   Factory,
 } from 'miragejs';
+import faker from 'faker';
 
-const server = () =>
-  createServer({
+const runMock = () => {
+  faker.locale = 'ru';
+
+  return createServer({
     serializers: {
-      task: RestSerializer.extend({
-        include: ['list'],
-        embed: true,
+      application: RestSerializer.extend({
+        // embed: false,
       }),
     },
 
@@ -27,16 +29,16 @@ const server = () =>
 
     factories: {
       list: Factory.extend({
-        name(i) {
+        title(i) {
           return `List ${i + 1}`;
         },
       }),
       task: Factory.extend({
-        text(i) {
+        title(i) {
           return `Task ${i + 1}`;
         },
         completed() {
-          return false;
+          return faker.random.boolean();
         },
       }),
     },
@@ -105,5 +107,6 @@ const server = () =>
       });
     },
   });
+};
 
-export default server;
+export default runMock;

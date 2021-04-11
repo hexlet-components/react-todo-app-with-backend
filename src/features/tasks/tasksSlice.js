@@ -1,71 +1,69 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+// @ts-check
+
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import routes from '../routes.js';
-import adapter from './adapter.js';
+import routes from 'api/routes.js';
+import adapter from 'store/adapter.js';
+import { sortBy } from 'lodash';
 
-export const fetchTasksByListId = createAsyncThunk(
-  'tasks/fetchTasksByListId',
+const fetchAll = createAsyncThunk(
+  'tasks/fetchAll',
   async ({ currentListId }) => {
     const url = routes.listTasks(currentListId);
     const response = await axios.get(url);
-    console.log('fetchTasksByListIdThunk response.data -', response.data);
     return response.data.tasks;
   }
 );
 
-export const addTask = createAsyncThunk(
-  'tasks/addTask',
-  async ({ text, listId }) => {
-    const url = routes.tasks();
-    const response = await axios.post(url, { text, listId });
-    console.log('addTaskThunk response.data -', response.data);
-    return response.data.task;
-  }
-);
+const create = createAsyncThunk('tasks/create', async ({ text, listId }) => {
+  const url = routes.tasks();
+  const response = await axios.post(url, { text, listId });
+  return response.data.task;
+});
 
-export const updateTask = createAsyncThunk(
-  'tasks/updateTask',
-  async ({ id, completed }) => {
-    const url = routes.task(id);
-    const response = await axios.patch(url, { completed });
-    console.log('updateTaskThunk response -', response);
-    return response.data.task;
-  }
-);
+const update = createAsyncThunk('tasks/update', async ({ id, completed }) => {
+  const url = routes.task(id);
+  const response = await axios.patch(url, { completed });
+  return response.data.task;
+});
 
-export const removeTask = createAsyncThunk(
-  'tasks/removeTask',
-  async ({ id }) => {
-    const url = routes.task(id);
-    const response = await axios.delete(url);
-    console.log('removeTaskThunk response -', response);
-    return id;
-  }
-);
+const remove = createAsyncThunk('tasks/remove', async ({ id }) => {
+  const url = routes.task(id);
+  const response = await axios.delete(url);
+  console.log('removeTaskThunk response -', response);
+  return id;
+});
 
 const slice = createSlice({
   name: 'tasks',
   initialState: adapter.getInitialState(),
   reducers: {},
   extraReducers: {
-    [fetchTasksByListId.fulfilled]: adapter.setAll,
-    [addTask.fulfilled]: adapter.addOne,
-    [updateTask.fulfilled]: adapter.upsertOne,
-    [removeTask.fulfilled]: adapter.removeOne,
+    [fetchAll.fulfilled]: adapter.setAll,
+    [create.fulfilled]: adapter.addOne,
+    [update.fulfilled]: adapter.upsertOne,
+    [remove.fulfilled]: adapter.removeOne,
   },
 });
 
-export const tasksSelectors = adapter.getSelectors((state) => state.tasks);
-export const tasksThunks = {
-  fetchTasksByListId,
-  addTask,
-  updateTask,
-  removeTask,
+export const adapterSelectors = adapter.getSelectors((state) => state.tasks);
+const selectSorted = createSelector(adapterSelectors.selectAll, (tasks) => {
+  return sortBy(tasks, ['completed', 'id']);
+});
+
+export const tasksSelectors = { ...adapterSelectors, selectSorted };
+
+export const tasksActions = {
+  ...slice.actions,
+  fetchAll,
+  remove,
+  create,
+  update,
 };
-
-const actions = { ...slice.actions };
-
-export { actions };
 
 export default slice.reducer;

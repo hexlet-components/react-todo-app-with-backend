@@ -13,8 +13,16 @@ plugins:
   - jsx-a11y
   - prettier
 
+settings:
+  import/resolver:
+    node:
+      paths:
+        - 'src'
+
 rules:
   no-console: 0
+  arrow-body-style: 0
+  react/react-in-jsx-scope: 0
   import/extensions: 0
   react/prop-types: 0
   react/jsx-filename-extension:

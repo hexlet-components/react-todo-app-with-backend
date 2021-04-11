@@ -1,14 +1,15 @@
-import React from 'react';
 import { Provider } from 'react-redux';
-import createStore from './store.js';
 import App from './App.jsx';
+import LoggerContext from '../contexts/LoggerContext';
 
-export default (preloadedState, middleaware) => {
-  const store = createStore(preloadedState, middleaware);
-
+const init = (store, loggerContextValue = { error: console.error }) => {
   return (
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <LoggerContext.Provider value={loggerContextValue}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </LoggerContext.Provider>
   );
 };
+
+export default init;
