@@ -1,15 +1,21 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App.jsx';
-import LoggerContext from '../contexts/LoggerContext';
 
-const init = (store, loggerContextValue = { error: console.error }) => {
-  return (
-    <LoggerContext.Provider value={loggerContextValue}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </LoggerContext.Provider>
+import createStore from '../store/index.js';
+import App from './App.jsx';
+
+const init = (preloadedState) => {
+  const store = createStore(preloadedState);
+  const container = document.getElementById('root');
+
+  const vdom = (
+    <Provider store={store}>
+      <App />
+    </Provider>
   );
+
+  ReactDOM.render(vdom, container);
 };
 
 export default init;

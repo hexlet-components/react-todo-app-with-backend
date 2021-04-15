@@ -1,8 +1,10 @@
+// @ts-check
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import routes from 'api/routes.js';
-import adapter from 'store/adapter.js';
+import routes from '../../api/routes.js';
+import adapter from '../../store/adapter.js';
 
 export const fetchAll = createAsyncThunk('lists/fetchAll', async () => {
   const url = routes.lists();

@@ -10,14 +10,9 @@ extends:
   - prettier
 
 plugins:
+  - react
   - jsx-a11y
   - prettier
-
-settings:
-  import/resolver:
-    node:
-      paths:
-        - 'src'
 
 rules:
   no-console: 0
@@ -30,6 +25,7 @@ rules:
     - extensions:
         - '.js'
         - '.jsx'
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
   no-param-reassign:
     - error
     - props: true
@@ -41,12 +37,6 @@ rules:
     - singleQuote: true
       trailingComma: 'es5'
       tabWidth: 2
-
-overrides:
-  - files:
-      - 'src/common/serviceWorker.js'
-    rules:
-      no-use-before-define: 'off'
 
 parserOptions:
   ecmaVersion: 12

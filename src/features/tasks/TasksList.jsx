@@ -1,6 +1,10 @@
+// @ts-check
+
+import React from 'react';
 import { useSelector } from 'react-redux';
-import Task from './Task';
-import { tasksSelectors } from './tasksSlice';
+
+import Task from './Task.jsx';
+import { tasksSelectors } from './tasksSlice.js';
 
 const TasksList = () => {
   const tasks = useSelector(tasksSelectors.selectSorted);

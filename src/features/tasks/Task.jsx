@@ -1,6 +1,8 @@
 // @ts-check
 
+import React from 'react';
 import { useDispatch } from 'react-redux';
+
 import { tasksActions } from './tasksSlice';
 
 const Task = ({ task }) => {

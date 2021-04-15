@@ -4,7 +4,16 @@ install-deps:
 	npm ci
 
 start:
-	npm run start
+	heroku local -f Procfile.dev
+
+start-backend:
+	npx nodemon bin/slack.js
+
+start-frontend:
+	npx webpack serve
+
+build:
+	npm run build
 
 test:
 	npm run test

@@ -6,19 +6,16 @@ import {
   createSelector,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-import routes from 'api/routes.js';
-import adapter from 'store/adapter.js';
 import { sortBy } from 'lodash';
 
-const fetchAll = createAsyncThunk(
-  'tasks/fetchAll',
-  async ({ currentListId }) => {
-    const url = routes.listTasks(currentListId);
-    const response = await axios.get(url);
-    return response.data;
-  }
-);
+import routes from '../../api/routes.js';
+import adapter from '../../store/adapter.js';
+
+const fetchAll = createAsyncThunk('tasks/fetchAll', async () => {
+  const url = routes.listTasks();
+  const response = await axios.get(url);
+  return response.data.tasks;
+});
 
 const create = createAsyncThunk('tasks/create', async ({ text, listId }) => {
   const url = routes.tasks();
