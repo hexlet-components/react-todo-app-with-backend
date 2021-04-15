@@ -16,27 +16,26 @@ const fetchAll = createAsyncThunk(
   async ({ currentListId }) => {
     const url = routes.listTasks(currentListId);
     const response = await axios.get(url);
-    return response.data.tasks;
+    return response.data;
   }
 );
 
 const create = createAsyncThunk('tasks/create', async ({ text, listId }) => {
   const url = routes.tasks();
   const response = await axios.post(url, { text, listId });
-  return response.data.task;
+  return response.data;
 });
 
 const update = createAsyncThunk('tasks/update', async ({ id, completed }) => {
   const url = routes.task(id);
   const response = await axios.patch(url, { completed });
-  return response.data.task;
+  return response.data;
 });
 
 const remove = createAsyncThunk('tasks/remove', async ({ id }) => {
   const url = routes.task(id);
   const response = await axios.delete(url);
-  console.log('removeTaskThunk response -', response);
-  return id;
+  return response.data;
 });
 
 const slice = createSlice({

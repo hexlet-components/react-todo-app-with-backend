@@ -8,13 +8,9 @@ const NewTaskForm = () => {
   const dispatch = useDispatch();
   const currentListId = useSelector(listsSelectors.selectCurrent);
 
-  const handleAddTask = (evt) => {
-    evt.preventDefault();
-    try {
-      dispatch(tasksActions.create({ title: '123', listId: currentListId }));
-    } catch (error) {
-      console.log(error);
-    }
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    dispatch(tasksActions.create({ title: '123', listId: currentListId }));
   };
 
   return (

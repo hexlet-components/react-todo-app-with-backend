@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker.js';
 import createStore from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 if (process.env.NODE_ENV === 'development') {
   runMock();

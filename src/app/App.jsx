@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import NewTaskForm from 'features/tasks/NewTaskForm.jsx';
 import { tasksActions } from '../features/tasks/tasksSlice';
@@ -14,19 +15,22 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(listsActions.fetchAll()).catch(console.error);
+    dispatch(listsActions.fetchAll());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(tasksActions.fetchAll({ currentListId })).catch(console.error);
+    dispatch(tasksActions.fetchAll({ currentListId }));
   }, [dispatch, currentListId]);
 
   return (
-    <div className="container">
-      <h1>Hexlet Todos</h1>
-      <NewTaskForm />
-      <TasksList />
-    </div>
+    <>
+      <div className="container">
+        <h1>Hexlet Todos</h1>
+        <NewTaskForm />
+        <TasksList />
+      </div>
+      <ToastContainer position="bottom-right" />
+    </>
   );
 };
 

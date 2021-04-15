@@ -14,7 +14,8 @@ const runMock = () => {
   return createServer({
     serializers: {
       application: RestSerializer.extend({
-        // embed: false,
+        embed: true,
+        root: false,
       }),
     },
 
@@ -38,7 +39,7 @@ const runMock = () => {
           return `Task ${i + 1}`;
         },
         completed() {
-          return faker.random.boolean();
+          return faker.datatype.boolean();
         },
       }),
     },
@@ -96,7 +97,8 @@ const runMock = () => {
 
       this.delete('/api/tasks/:id', (schema, request) => {
         const { id } = request.params;
-        return schema.tasks.find(id).destroy();
+        schema.tasks.find(id).destroy();
+        return id;
       });
 
       this.delete('/api/lists/:id', (schema, request) => {

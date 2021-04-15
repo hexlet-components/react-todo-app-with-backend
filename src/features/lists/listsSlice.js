@@ -7,22 +7,19 @@ import adapter from 'store/adapter.js';
 export const fetchAll = createAsyncThunk('lists/fetchAll', async () => {
   const url = routes.lists();
   const response = await axios.get(url);
-  console.log('fetchListsThunk response.data -', response.data);
-  return response.data.lists;
+  return response.data;
 });
 
 export const create = createAsyncThunk('lists/create', async ({ text }) => {
   const url = routes.lists();
   const response = await axios.post(url, { text });
-  console.log('addListThunk response.data -', response.data);
-  return response.data.list;
+  return response.data;
 });
 
 export const remove = createAsyncThunk('lists/remove', async ({ id }) => {
   const url = routes.list(id);
   const response = await axios.delete(url);
-  console.log('removeListThunk response -', response);
-  return id;
+  return response.data;
 });
 
 const slice = createSlice({

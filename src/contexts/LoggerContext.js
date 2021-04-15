@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const LoggerContext = createContext(console.error);
+const LoggerContext = createContext();
 
 export default LoggerContext;
