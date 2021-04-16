@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -15,6 +15,8 @@ const taskStates = {
 const Task = ({ task }) => {
   const dispatch = useDispatch();
   const [state, setState] = useState(taskStates.idle);
+  const checkboxRef = useRef();
+  const buttonRef = useRef();
 
   const remove = async () => {
     try {
@@ -25,6 +27,7 @@ const Task = ({ task }) => {
       dispatch(tasksActions.remove(task.id));
     } catch (err) {
       setState(taskStates.idle);
+      buttonRef.current?.focus();
       console.log(err);
     }
   };
@@ -39,20 +42,22 @@ const Task = ({ task }) => {
       console.log(err);
     }
     setState(taskStates.idle);
+    checkboxRef.current?.focus();
   };
 
   return (
     <div className="row align-items-center justify-content-between">
       <div className="col-8">
-        <input
-          id={`task-${task.id}`}
-          className="me-2"
-          type="checkbox"
-          defaultChecked={task.completed}
-          onChange={toggleCompleted}
-          disabled={state === taskStates.loading}
-        />
-        <label className="fs-5" htmlFor={`task-${task.id}`}>
+        <label className="fs-5 pointer" htmlFor={`task-${task.id}`}>
+          <input
+            id={`task-${task.id}`}
+            className="me-2"
+            type="checkbox"
+            defaultChecked={task.completed}
+            onChange={toggleCompleted}
+            disabled={state === taskStates.loading}
+            ref={checkboxRef}
+          />
           {task.completed ? <s>{task.text}</s> : task.text}
         </label>
       </div>
@@ -62,6 +67,7 @@ const Task = ({ task }) => {
           className="btn btn-danger"
           type="button"
           disabled={state === taskStates.loading}
+          ref={buttonRef}
         >
           Remove
         </button>
