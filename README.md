@@ -11,12 +11,14 @@
 - Node.js >= 14
 - npm >= 7
 - make >= 4 (optional)
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
 ## Установка
 
 ```shell
 make setup
-make start # running mock on localhost
+make start
+# open http://localhost:5000
 ```
 
 ---
