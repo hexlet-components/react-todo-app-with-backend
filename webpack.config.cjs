@@ -28,15 +28,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              presets: ['@babel/env', '@babel/react'],
-            },
-          },
-        ],
+        use: 'babel-loader',
       },
       {
         test: /\.s?[ac]ss$/i,
