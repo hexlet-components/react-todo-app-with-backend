@@ -1,6 +1,6 @@
 // @ts-check
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
@@ -11,6 +11,11 @@ import routes from '../../api/routes.js';
 const NewTaskForm = () => {
   const dispatch = useDispatch();
   const currentListId = useSelector((state) => state.currentListId);
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const addTask = async ({ text }, { resetForm }) => {
     try {
@@ -21,6 +26,8 @@ const NewTaskForm = () => {
     } catch (error) {
       console.log(error);
     }
+    console.log(inputRef.current);
+    inputRef.current?.focus();
   };
 
   return (
@@ -33,7 +40,8 @@ const NewTaskForm = () => {
               className="form-control"
               placeholder="Please type text..."
               name="text"
-              readonly={isSubmitting}
+              readOnly={isSubmitting}
+              innerRef={inputRef}
             />
             <button
               className="btn btn-lg btn-outline-success"
