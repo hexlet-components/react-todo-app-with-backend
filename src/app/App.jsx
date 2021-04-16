@@ -14,13 +14,13 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(listsActions.fetchAll());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(listsActions.fetchAll());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(tasksActions.fetchAll({ currentListId }));
-  }, [dispatch, currentListId]);
+  // useEffect(() => {
+  //   dispatch(tasksActions.fetchAll({ currentListId }));
+  // }, [dispatch, currentListId]);
 
   return (
     <>

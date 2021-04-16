@@ -1,5 +1,5 @@
 const host = '';
-const prefix = 'api';
+const prefix = 'api/v1';
 
 const routes = {
   lists: () => [host, prefix, 'lists'].join('/'),

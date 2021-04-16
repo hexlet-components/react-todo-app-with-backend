@@ -45,37 +45,39 @@ export default (app, defaultState = {}) => {
       };
       state.lists.push(list);
 
-      reply.send(201, list);
+      reply.code(201).send(list);
     })
     .delete('/api/v1/lists/:id', (req, reply) => {
       const listId = Number(req.params.id);
       state.lists = state.lists.filter((l) => l.id !== listId);
       state.tasks = state.tasks.filter((t) => t.listId !== listId);
 
-      reply.send(204);
+      reply.code(204).send();
     })
     .post('/api/v1/lists/:id/tasks', (req, reply) => {
-      const { name } = req.body;
+      const { text } = req.body;
       const task = {
-        name,
+        text,
         listId: Number(req.params.id),
         id: getNextId(),
-        done: false,
+        completed: false,
+        touched: Date.now(),
       };
       state.tasks.push(task);
-      reply.send(201, task);
+      reply.code(201).send(task);
     })
     .patch('/api/v1/tasks/:id', (req, reply) => {
       const taskId = Number(req.params.id);
-      const { done } = req.body;
+      const { completed } = req.body;
       const task = state.tasks.find((t) => t.id === taskId);
-      task.done = done;
-      reply.send(201, task);
+      task.completed = completed;
+      task.touched = Date.now();
+      reply.code(201).send(task);
     })
     .delete('/api/v1/tasks/:id', (req, reply) => {
       const taskId = Number(req.params.id);
-      state.tasks = state.tasks.filter((t) => t.taskId !== taskId);
+      state.tasks = state.tasks.filter((t) => t.id !== taskId);
 
-      reply.send(204);
+      reply.code(204).send();
     });
 };
