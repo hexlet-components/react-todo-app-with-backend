@@ -32,7 +32,7 @@ const setUpViews = (app) => {
 const setUpStaticAssets = (app) => {
   app.register(fastifyStatic, {
     root: path.join(appPath, 'dist/public'),
-    prefix: '/assets',
+    prefix: '/assets/',
   });
 };
 

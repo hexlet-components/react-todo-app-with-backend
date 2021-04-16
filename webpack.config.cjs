@@ -1,5 +1,6 @@
 // @ts-check
 
+const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
@@ -11,10 +12,9 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    path: `${__dirname}/dist/public`,
+    path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
-  plugins: [new MiniCssExtractPlugin()],
   devServer: {
     compress: true,
     port: 8080,
@@ -22,6 +22,7 @@ module.exports = {
     publicPath: '/assets/',
     historyApiFallback: true,
   },
+  plugins: [new MiniCssExtractPlugin()],
   module: {
     rules: [
       {

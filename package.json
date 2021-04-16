@@ -2,10 +2,6 @@
   "name": "react-todo-app-with-backend",
   "version": "0.1.0",
   "private": true,
-  "main": "src/App/init.jsx",
-  "bin": {
-    "slack": "bin/slack.js"
-  },
   "engines": {
     "node": ">= 14"
   },
@@ -76,6 +72,7 @@
     "css-loader": "^5.2.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.2.0",
+    "eslint-import-resolver-webpack": "^0.13.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.4.0",
     "husky": "^6.0.0",
