@@ -1,24 +1,17 @@
 // @ts-check
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
+import gon from 'gon';
 
-import * as serviceWorker from './serviceWorker.js';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
 
-import App from './App.jsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/application.scss';
 
-import store from './slices/index.js';
+import init from './app/init.jsx';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-);
+if (process.env.NODE_ENV !== 'production') {
+  localStorage.debug = 'todo-list:*';
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+init(gon);

@@ -1,0 +1,52 @@
+---
+
+env:
+  browser: true
+  es2021: true
+  node: true
+
+extends:
+  - airbnb
+  - plugin:jsx-a11y/recommended
+  - prettier
+
+plugins:
+  - react
+  - jsx-a11y
+  - prettier
+
+parser: babel-eslint
+
+settings:
+  import/resolver:
+    - webpack:
+        config: 'webpack.config.cjs'
+    - node
+
+rules:
+  no-console: 0
+  arrow-body-style: 0
+  react/react-in-jsx-scope: 0
+  import/extensions: 0
+  react/prop-types: 0
+  react/jsx-filename-extension:
+    - 1
+    - extensions:
+        - '.js'
+        - '.jsx'
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
+  no-param-reassign:
+    - error
+    - props: true
+      ignorePropertyModificationsFor:
+        - state
+
+  prettier/prettier:
+    - error
+    - singleQuote: true
+      trailingComma: 'es5'
+      tabWidth: 2
+
+parserOptions:
+  ecmaVersion: 12
+  sourceType: module
