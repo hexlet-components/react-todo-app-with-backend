@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
 
+import { BsCheck } from 'react-icons/bs';
+
 import { listsActions } from './listsSlice';
 import routes from '../../api/routes.js';
 
@@ -47,7 +49,7 @@ const NewListForm = () => {
               type="submit"
               disabled={isSubmitting || !values.text.trim()}
             >
-              <i className="bi bi-check" />
+              <BsCheck />
             </button>
           </div>
         </Form>

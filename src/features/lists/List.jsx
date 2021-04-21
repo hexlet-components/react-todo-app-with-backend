@@ -5,6 +5,8 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
+import { BsX } from 'react-icons/bs';
+
 import {
   setCurrentListId,
   selectCurrentListId,
@@ -61,7 +63,7 @@ const List = ({ list }) => {
           disabled={state === listStates.loading}
           ref={buttonRef}
         >
-          <i className="bi bi-x" />
+          <BsX />
         </a>
       )}
     </div>
