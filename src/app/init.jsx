@@ -16,7 +16,10 @@ const init = (preloadedState) => {
       adapter.getInitialState(),
       normalize(preloadedState.tasks)
     ),
-    lists: normalize(preloadedState.lists),
+    lists: adapter.upsertMany(
+      adapter.getInitialState(),
+      normalize(preloadedState.lists)
+    ),
   };
   const store = createStore(normalizedStore);
   const container = document.getElementById('root');

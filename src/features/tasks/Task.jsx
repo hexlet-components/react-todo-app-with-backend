@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -48,7 +48,7 @@ const Task = ({ task }) => {
   return (
     <div className="row align-items-center justify-content-between">
       <div className="col-8">
-        <label className="fs-5 pointer" htmlFor={`task-${task.id}`}>
+        <label className="pointer" htmlFor={`task-${task.id}`}>
           <input
             id={`task-${task.id}`}
             className="me-2"
@@ -64,7 +64,7 @@ const Task = ({ task }) => {
       <div className="col-4 d-flex justify-content-end">
         <button
           onClick={remove}
-          className="btn btn-danger"
+          className="btn btn-sm btn-danger"
           type="button"
           disabled={state === taskStates.loading}
           ref={buttonRef}
