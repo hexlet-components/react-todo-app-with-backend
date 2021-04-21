@@ -9,12 +9,10 @@ import { listsSelectors } from './listsSlice.js';
 const ListsList = () => {
   const lists = useSelector(listsSelectors.selectAll);
 
-  console.log(lists);
-
   return (
-    <ul className="list-group">
+    <ul className="list-group list-group-flush">
       {lists.map((list) => (
-        <li className="list-group-item container" key={list.id}>
+        <li className="list-group-item" key={list.id}>
           <List list={list} />
         </li>
       ))}

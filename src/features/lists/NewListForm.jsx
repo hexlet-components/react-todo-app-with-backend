@@ -19,7 +19,6 @@ const NewListForm = () => {
   const addList = async ({ text }, { resetForm }) => {
     try {
       const url = routes.lists();
-      console.log({ url, text });
       const response = await axios.post(url, { name: text });
       dispatch(listsActions.add(response.data));
       resetForm();
@@ -31,23 +30,24 @@ const NewListForm = () => {
 
   return (
     <Formik initialValues={{ text: '' }} onSubmit={addList}>
-      {({ isSubmitting }) => (
+      {({ values, isSubmitting }) => (
         <Form className="form mb-3">
           <div className="input-group">
             <Field
               type="text"
-              className="form-control"
-              placeholder="Please type text..."
               name="text"
+              value={values.text}
+              className="form-control"
+              placeholder="List name..."
               readOnly={isSubmitting}
               innerRef={inputRef}
             />
             <button
               className="btn btn-outline-success"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !values.text.trim()}
             >
-              Add
+              <i className="bi bi-check" />
             </button>
           </div>
         </Form>

@@ -15,6 +15,7 @@ const taskStates = {
 const Task = ({ task }) => {
   const dispatch = useDispatch();
   const [state, setState] = useState(taskStates.idle);
+
   const checkboxRef = useRef();
   const buttonRef = useRef();
 

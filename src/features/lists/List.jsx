@@ -1,10 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
+import {
+  setCurrentListId,
+  selectCurrentListId,
+} from '../../store/currentListIdSlice.js';
 import { listsActions } from './listsSlice.js';
+
 import routes from '../../api/routes.js';
 
 const listStates = {
@@ -16,7 +22,14 @@ const List = ({ list }) => {
   const dispatch = useDispatch();
   const [state, setState] = useState(listStates.idle);
 
+  const currentListId = useSelector(selectCurrentListId);
+
   const buttonRef = useRef();
+
+  const setCurrent = (e) => {
+    e.preventDefault();
+    dispatch(setCurrentListId(list.id));
+  };
 
   const remove = async () => {
     try {
@@ -32,20 +45,25 @@ const List = ({ list }) => {
     }
   };
 
+  const currentClass =
+    currentListId === list.id ? 'link-primary' : 'link-secondary';
+
   return (
-    <div className="row align-items-center justify-content-between">
-      <div className="col-8">{list.name}</div>
-      <div className="col-4 d-flex justify-content-end">
-        <button
+    <div className="d-flex justify-content-between align-items-start">
+      <a href="" onClick={setCurrent} className={currentClass}>
+        {list.name}
+      </a>
+      {list.removable === true && (
+        <a
+          href=""
           onClick={remove}
-          className="btn btn-sm btn-danger"
-          type="button"
+          className="link-danger"
           disabled={state === listStates.loading}
           ref={buttonRef}
         >
-          Remove
-        </button>
-      </div>
+          <i className="bi bi-x" />
+        </a>
+      )}
     </div>
   );
 };

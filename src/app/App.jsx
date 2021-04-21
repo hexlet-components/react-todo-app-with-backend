@@ -13,20 +13,20 @@ import ListsList from '../features/lists/ListsList.jsx';
 const App = () => {
   return (
     <>
-      <div className="container p-3">
-        <nav className="navbar navbar-light bg-light mb-3">
+      <div className="container p-4">
+        <nav className="navbar navbar-light bg-light mb-4">
           <div className="container-fluid">
             <span className="navbar-brand mb-0 h1">Hexlet Todos</span>
           </div>
         </nav>
         <div className="row">
-          <div className="col-4 h-100 px-3 border-end">
-            <h4 className="mb-3">Lists</h4>
+          <div className="col-3 h-100 px-4 border-end">
+            <h5 className="mb-3">Lists</h5>
             <NewListForm />
             <ListsList />
           </div>
-          <div className="col-8 px-3">
-            <h4 className="mb-3">Tasks</h4>
+          <div className="col-5 px-4">
+            <h5 className="mb-3">Tasks</h5>
             <NewTaskForm />
             <TasksList />
           </div>
