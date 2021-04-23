@@ -1,27 +1,28 @@
 // @ts-nocheck
 
 import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
 
-import { tasksActions } from './tasksSlice';
+import { BsCheck } from 'react-icons/bs';
+
+import { listsActions } from './listsSlice';
 import routes from '../../api/routes.js';
 
-const NewTaskForm = () => {
+const NewListForm = () => {
   const dispatch = useDispatch();
-  const currentListId = useSelector((state) => state.currentListId);
   const inputRef = useRef();
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const addTask = async ({ text }, { resetForm }) => {
+  const addList = async ({ text }, { resetForm }) => {
     try {
-      const url = routes.listTasks(currentListId);
-      const response = await axios.post(url, { text });
-      dispatch(tasksActions.add(response.data));
+      const url = routes.lists();
+      const response = await axios.post(url, { name: text });
+      dispatch(listsActions.add(response.data));
       resetForm();
     } catch (error) {
       console.log(error);
@@ -30,24 +31,25 @@ const NewTaskForm = () => {
   };
 
   return (
-    <Formik initialValues={{ text: '' }} onSubmit={addTask}>
-      {({ isSubmitting }) => (
+    <Formik initialValues={{ text: '' }} onSubmit={addList}>
+      {({ values, isSubmitting }) => (
         <Form className="form mb-3">
           <div className="input-group">
             <Field
               type="text"
-              className="form-control"
-              placeholder="Please type text..."
               name="text"
+              value={values.text}
+              className="form-control"
+              placeholder="List name..."
               readOnly={isSubmitting}
               innerRef={inputRef}
             />
             <button
               className="btn btn-outline-success"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !values.text.trim()}
             >
-              Add
+              <BsCheck />
             </button>
           </div>
         </Form>
@@ -56,4 +58,4 @@ const NewTaskForm = () => {
   );
 };
 
-export default NewTaskForm;
+export default NewListForm;
