@@ -9,6 +9,9 @@ import { tasksSelectors } from './tasksSlice.js';
 const TasksList = () => {
   const tasks = useSelector(tasksSelectors.selectByCurrentListId);
 
+  if (tasks.length === 0) {
+    return <div>Список задач пустой</div>;
+  }
   return (
     <ul className="list-group">
       {tasks.map((task) => (
