@@ -34,7 +34,8 @@
     "react-redux": "^7.2.3",
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.3",
-    "regenerator-runtime": "^0.13.7"
+    "regenerator-runtime": "^0.13.7",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "prebuild": "rm -rf dist",
