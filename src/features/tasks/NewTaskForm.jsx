@@ -1,4 +1,5 @@
 // @ts-nocheck
+/* eslint-disable no-template-curly-in-string */
 
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,13 +11,20 @@ import cn from 'classnames';
 import { tasksActions } from './tasksSlice';
 import routes from '../../api/routes.js';
 
+Yup.setLocale({
+  mixed: {
+    required: 'Required!',
+  },
+  string: {
+    min: 'Too Small! Required length > ${min}',
+    max: 'Too Long! Required length < ${max}',
+  },
+});
+
 const minLength = 3;
 const maxLength = 30;
 const validationSchema = Yup.object().shape({
-  text: Yup.string()
-    .min(minLength, `Too Small! Required length > ${minLength}`)
-    .max(maxLength, `Too Long! Required length < ${maxLength}`)
-    .required('Required!'),
+  text: Yup.string().min(minLength).max(maxLength).required(),
 });
 
 const NewTaskForm = () => {
