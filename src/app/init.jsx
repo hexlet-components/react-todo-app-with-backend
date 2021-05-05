@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import adapter from '../store/adapter.js';
 
@@ -16,10 +15,12 @@ const init = (preloadedState) => {
       adapter.getInitialState(),
       normalize(preloadedState.tasks)
     ),
-    lists: normalize(preloadedState.lists),
+    lists: adapter.upsertMany(
+      adapter.getInitialState(),
+      normalize(preloadedState.lists)
+    ),
   };
   const store = createStore(normalizedStore);
-  const container = document.getElementById('root');
 
   const vdom = (
     <Provider store={store}>
@@ -27,7 +28,7 @@ const init = (preloadedState) => {
     </Provider>
   );
 
-  ReactDOM.render(vdom, container);
+  return vdom;
 };
 
 export default init;

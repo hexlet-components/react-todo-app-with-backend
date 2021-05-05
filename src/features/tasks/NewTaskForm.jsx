@@ -26,7 +26,6 @@ const NewTaskForm = () => {
     } catch (error) {
       console.log(error);
     }
-    console.log(inputRef.current);
     inputRef.current?.focus();
   };
 
@@ -34,7 +33,8 @@ const NewTaskForm = () => {
     <Formik initialValues={{ text: '' }} onSubmit={addTask}>
       {({ isSubmitting }) => (
         <Form className="form mb-3">
-          <div className="input-group input-group-lg">
+          <label className="visually-hidden" htmlFor="new-task">New task</label>
+          <div className="input-group">
             <Field
               type="text"
               className="form-control"
@@ -42,9 +42,11 @@ const NewTaskForm = () => {
               name="text"
               readOnly={isSubmitting}
               innerRef={inputRef}
+              required
+              id="new-task"
             />
             <button
-              className="btn btn-lg btn-outline-success"
+              className="btn btn-outline-success"
               type="submit"
               disabled={isSubmitting}
             >

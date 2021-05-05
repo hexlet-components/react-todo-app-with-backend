@@ -1,16 +1,9 @@
 import { toast } from 'react-toastify';
 import { has } from 'lodash';
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import listsReducer from '../features/lists/listsSlice.js';
 import tasksReducer from '../features/tasks/tasksSlice.js';
-
-const { reducer: currentListIdReducer } = createSlice({
-  name: 'currentListId',
-  initialState: null,
-  reducers: {
-    setCurrentListId: (state, { payload }) => payload.listId,
-  },
-});
+import currentListIdReducer from './currentListIdSlice.js';
 
 export default (preloadedState = {}, customMiddlewares = []) => {
   const toastMiddleware = () => (next) => (action) => {

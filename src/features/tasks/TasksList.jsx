@@ -7,7 +7,7 @@ import Task from './Task.jsx';
 import { tasksSelectors } from './tasksSlice.js';
 
 const TasksList = () => {
-  const tasks = useSelector(tasksSelectors.selectAll);
+  const tasks = useSelector(tasksSelectors.selectByCurrentListId);
 
   return (
     <ul className="list-group">
