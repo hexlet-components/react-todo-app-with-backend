@@ -1,10 +1,11 @@
 {
-  "name": "react-todo-app-with-backend",
+  "name": "@hexlet/react-todo-app-with-backend",
   "version": "0.1.0",
-  "private": true,
   "engines": {
     "node": ">= 14"
   },
+  "main": "./src/app/init.jsx",
+  "bin": "./bin/slack.js",
   "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
