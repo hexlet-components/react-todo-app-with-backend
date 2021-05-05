@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';

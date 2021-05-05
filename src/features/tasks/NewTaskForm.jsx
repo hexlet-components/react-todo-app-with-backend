@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 /* eslint-disable no-template-curly-in-string */
 
 import React, { useMemo } from 'react';
