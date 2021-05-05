@@ -1,40 +1,36 @@
 // @ts-nocheck
 /* eslint-disable no-template-curly-in-string */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import cn from 'classnames';
 
-import { tasksActions } from './tasksSlice';
+import { tasksActions, tasksSelectors } from './tasksSlice';
 import routes from '../../api/routes.js';
-
-Yup.setLocale({
-  mixed: {
-    required: 'Required!',
-  },
-  string: {
-    min: 'Too Small! Required length > ${min}',
-    max: 'Too Long! Required length < ${max}',
-  },
-});
+import { selectCurrentListId } from '../../store/currentListIdSlice';
 
 const minLength = 3;
 const maxLength = 30;
-const validationSchema = Yup.object().shape({
-  text: Yup.string().min(minLength).max(maxLength).required(),
-});
 
 const NewTaskForm = () => {
   const dispatch = useDispatch();
-  const currentListId = useSelector((state) => state.currentListId);
-  const inputRef = useRef();
+  const currentListId = useSelector(selectCurrentListId);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const tasks = useSelector(tasksSelectors.selectByCurrentListId);
+  const tasksNames = useMemo(() => {
+    return tasks.map((i) => i.text);
+  }, [tasks]);
+
+  const validationSchema = Yup.object().shape({
+    text: Yup.string()
+      .min(minLength)
+      .max(maxLength)
+      .required()
+      .notOneOf(tasksNames),
+  });
 
   const addTask = async ({ text }, { resetForm }) => {
     try {
@@ -52,8 +48,10 @@ const NewTaskForm = () => {
     <Formik
       initialValues={{ text: '' }}
       validationSchema={validationSchema}
-      validateOnBlur={false}
       onSubmit={addTask}
+      validateOnBlur={false}
+      validateOnMount={false}
+      validateOnChange={false}
     >
       {({ isSubmitting, isValid, touched, errors }) => (
         <>
@@ -68,7 +66,6 @@ const NewTaskForm = () => {
                 placeholder="Please type text..."
                 name="text"
                 readOnly={isSubmitting}
-                innerRef={inputRef}
               />
               <button
                 className="btn btn-outline-success"
