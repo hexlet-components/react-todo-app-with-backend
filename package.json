@@ -5,6 +5,7 @@
     "node": ">= 14"
   },
   "main": "./src/app/init.jsx",
+  "bin": "./bin/slack.js",
   "type": "module",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
@@ -36,7 +37,8 @@
     "build": "NODE_ENV=production npx webpack --mode production",
     "start": "node bin/slack.js",
     "test": "echo 'write tests!'",
-    "lint": "npx eslint . --ext .jsx,.js"
+    "lint": "npx eslint . --ext .jsx,.js",
+    "postinstall": "make build"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
