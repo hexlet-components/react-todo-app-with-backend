@@ -1,9 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-nocheck
 
+
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import cn from 'classnames'
 
 import { BsX } from 'react-icons/bs';
 
@@ -47,24 +49,25 @@ const List = ({ list }) => {
     }
   };
 
-  const currentClass =
-    currentListId === list.id ? 'link-primary' : 'link-secondary';
+  const currentClass = cn(
+    currentListId === list.id ? 'link-primary' : 'link-secondary',
+    'btn', 'btn-link'
+  )
 
   return (
     <div className="d-flex justify-content-between align-items-start">
-      <a href="" onClick={setCurrent} className={currentClass}>
+      <button onClick={setCurrent} className={currentClass}>
         {list.name}
-      </a>
-      {list.removable === true && (
-        <a
-          href=""
+      </button>
+      {list.removable && (
+        <button
           onClick={remove}
-          className="link-danger"
+          className="btn link-danger"
           disabled={state === listStates.loading}
           ref={buttonRef}
         >
           <BsX />
-        </a>
+        </button>
       )}
     </div>
   );
