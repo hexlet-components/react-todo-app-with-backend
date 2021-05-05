@@ -1,7 +1,7 @@
 // @ts-check
 
-import 'react-toastify/dist/ReactToastify.css';
 import gon from 'gon';
+import ReactDOM from 'react-dom';
 
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
@@ -14,4 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'todo-list:*';
 }
 
-init(gon);
+const app = init(gon);
+
+const container = document.getElementById('root');
+ReactDOM.render(app, container);
