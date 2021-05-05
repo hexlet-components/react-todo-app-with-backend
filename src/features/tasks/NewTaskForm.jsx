@@ -41,7 +41,6 @@ const NewTaskForm = () => {
     } catch (error) {
       console.log(error);
     }
-    inputRef.current?.focus();
   };
 
   return (
