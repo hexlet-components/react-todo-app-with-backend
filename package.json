@@ -7,6 +7,14 @@
   "main": "./src/app/init.jsx",
   "bin": "./bin/slack.js",
   "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "NODE_ENV=production npx webpack --mode production",
+    "start": "node bin/slack.js",
+    "test": "echo 'write tests!'",
+    "lint": "npx eslint . --ext .jsx,.js",
+    "prepare": "make build"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.21.1",
@@ -31,14 +39,6 @@
     "react-redux": "^7.2.4",
     "react-toastify": "^7.0.4",
     "regenerator-runtime": "^0.13.7"
-  },
-  "scripts": {
-    "prebuild": "rm -rf dist",
-    "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "node bin/slack.js",
-    "test": "echo 'write tests!'",
-    "lint": "npx eslint . --ext .jsx,.js",
-    "postinstall": "make build"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
