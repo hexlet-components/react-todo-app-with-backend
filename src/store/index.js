@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { has } from 'lodash';
+
 import { configureStore } from '@reduxjs/toolkit';
 import listsReducer from '../features/lists/listsSlice.js';
 import tasksReducer from '../features/tasks/tasksSlice.js';
@@ -15,14 +16,12 @@ export default (preloadedState = {}, customMiddlewares = []) => {
     return next(action);
   };
 
+export default (preloadedState) => {
   const store = configureStore({
     reducer: {
       lists: listsReducer,
       tasks: tasksReducer,
       currentListId: currentListIdReducer,
-    },
-    middleware: (getDefaultMiddleware) => {
-      return [...getDefaultMiddleware(), ...customMiddlewares, toastMiddleware];
     },
     preloadedState,
   });

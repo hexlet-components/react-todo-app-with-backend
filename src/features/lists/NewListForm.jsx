@@ -15,6 +15,7 @@ import cn from 'classnames';
 const NewListForm = () => {
   const dispatch = useDispatch();
 
+
   const addList = async ({ text }, { resetForm }) => {
     try {
       const url = routes.lists();
@@ -58,6 +59,12 @@ const NewListForm = () => {
               })}
               placeholder="List name..."
               readOnly={isSubmitting}
+              className="form-control"
+              placeholder="List name..."
+              readOnly={isSubmitting}
+              innerRef={inputRef}
+              required
+              id="new-list"
             />
             <button
               className="btn btn-outline-success"
