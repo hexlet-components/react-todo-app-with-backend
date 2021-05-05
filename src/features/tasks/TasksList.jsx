@@ -10,7 +10,7 @@ const TasksList = () => {
   const tasks = useSelector(tasksSelectors.selectByCurrentListId);
 
   if (tasks.length === 0) {
-    return <div>Список задач пустой</div>;
+    return <div>Tasks list is empty</div>;
   }
   return (
     <ul className="list-group">
