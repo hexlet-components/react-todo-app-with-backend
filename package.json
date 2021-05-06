@@ -4,6 +4,7 @@
   "engines": {
     "node": ">= 14"
   },
+  "author": "Kirill Mokevnin",
   "main": "./src/app/init.jsx",
   "bin": "./bin/slack.js",
   "type": "module",
