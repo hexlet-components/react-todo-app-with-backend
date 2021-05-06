@@ -21,4 +21,7 @@ test:
 lint:
 	npm run lint
 
+publish:
+	npm publish --access public
+
 .PHONY: test
