@@ -21,4 +21,10 @@ test:
 lint:
 	npm run lint
 
+publish:
+	npm publish --access public
+
+tag:
+	git tag $(TAG) && git push --tags
+
 .PHONY: test
