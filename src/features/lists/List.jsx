@@ -2,6 +2,7 @@
 // @ts-check
 
 import React, { useRef, useState } from 'react';
+import Spinner from '../../app/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import cn from 'classnames';
@@ -54,21 +55,29 @@ const List = ({ list }) => {
     'btn-link'
   );
 
+  const renderList = () => {
+    return (
+      <>
+        <button onClick={setCurrent} className={currentClass}>
+          {list.name}
+        </button>
+        {list.removable && (
+          <button
+            onClick={remove}
+            className="btn link-danger"
+            disabled={state === listStates.loading}
+            ref={buttonRef}
+          >
+            <BsX />
+          </button>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className="d-flex justify-content-between align-items-start">
-      <button onClick={setCurrent} className={currentClass}>
-        {list.name}
-      </button>
-      {list.removable && (
-        <button
-          onClick={remove}
-          className="btn link-danger"
-          disabled={state === listStates.loading}
-          ref={buttonRef}
-        >
-          <BsX />
-        </button>
-      )}
+      {state === 'loading' ? <Spinner /> : renderList()}
     </div>
   );
 };

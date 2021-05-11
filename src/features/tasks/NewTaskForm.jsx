@@ -2,6 +2,7 @@
 /* eslint-disable no-template-curly-in-string */
 
 import React, { useMemo } from 'react';
+import Spinner from '../../app/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
@@ -78,6 +79,7 @@ const NewTaskForm = () => {
               )}
             </div>
           </Form>
+          {isSubmitting ? <Spinner /> : null}
         </>
       )}
     </Formik>

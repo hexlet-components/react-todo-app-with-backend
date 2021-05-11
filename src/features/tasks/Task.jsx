@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useRef, useState } from 'react';
+import Spinner from '../../app/Spinner';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -43,37 +44,47 @@ const Task = ({ task }) => {
       console.log(err);
     }
     setState(taskStates.idle);
+
     checkboxRef.current?.focus();
   };
 
-  return (
-    <div className="row align-items-center justify-content-between">
-      <div className="col-8">
-        <label className="pointer" htmlFor={`task-${task.id}`}>
-          <input
-            id={`task-${task.id}`}
-            className="me-2"
-            type="checkbox"
-            defaultChecked={task.completed}
-            onChange={toggleCompleted}
+  const renderTask = () => {
+    return (
+      <>
+        <div className="col-8">
+          <label className="pointer" htmlFor={`task-${task.id}`}>
+            <input
+              id={`task-${task.id}`}
+              className="me-2"
+              type="checkbox"
+              defaultChecked={task.completed}
+              onChange={toggleCompleted}
+              disabled={state === taskStates.loading}
+              ref={checkboxRef}
+            />
+            {task.completed ? <s>{task.text}</s> : task.text}
+          </label>
+        </div>
+        <div className="col-4 d-flex justify-content-end">
+          <button
+            onClick={remove}
+            className="btn btn-sm btn-danger"
+            type="button"
             disabled={state === taskStates.loading}
-            ref={checkboxRef}
-          />
-          {task.completed ? <s>{task.text}</s> : task.text}
-        </label>
+            ref={buttonRef}
+          >
+            Remove
+          </button>
+        </div>
+      </>
+    );
+  };
+  return (
+    <>
+      <div className="row align-items-center justify-content-between">
+        {state === 'loading' ? <Spinner /> : renderTask()}
       </div>
-      <div className="col-4 d-flex justify-content-end">
-        <button
-          onClick={remove}
-          className="btn btn-sm btn-danger"
-          type="button"
-          disabled={state === taskStates.loading}
-          ref={buttonRef}
-        >
-          Remove
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 
