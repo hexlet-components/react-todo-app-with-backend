@@ -33,7 +33,9 @@ const NewTaskForm = () => {
     <Formik initialValues={{ text: '' }} onSubmit={addTask}>
       {({ isSubmitting }) => (
         <Form className="form mb-3">
-          <label className="visually-hidden" htmlFor="new-task">New task</label>
+          <label className="visually-hidden" htmlFor="new-task">
+            New task
+          </label>
           <div className="input-group">
             <Field
               type="text"

@@ -1,3 +1,5 @@
+// @ts-check
+
 import React from 'react';
 import { Provider } from 'react-redux';
 import keyBy from 'lodash/keyBy.js';
@@ -6,7 +8,7 @@ import adapter from '../store/adapter.js';
 import createStore from '../store/index.js';
 import App from './App.jsx';
 
-const normalize = (entities) => keyBy(entities, id);
+const normalize = (entities) => keyBy(entities, 'id');
 
 const init = (preloadedState) => {
   const normalizedStore = {
