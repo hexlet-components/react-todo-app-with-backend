@@ -1,13 +1,15 @@
+// @ts-check
+
 import React from 'react';
 import { Provider } from 'react-redux';
-import adapter from '../store/adapter.js';
+import keyBy from 'lodash/keyBy.js';
 
+import adapter from '../store/adapter.js';
 import createStore from '../store/index.js';
 import App from './App.jsx';
 import { setLocale } from 'yup';
 
-const normalize = (entities) =>
-  entities.reduce((acc, task) => ({ ...acc, [task.id]: task }), {});
+const normalize = (entities) => keyBy(entities, 'id');
 
 const init = (preloadedState) => {
   setLocale({

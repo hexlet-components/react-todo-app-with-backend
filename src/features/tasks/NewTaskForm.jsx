@@ -50,6 +50,9 @@ const NewTaskForm = () => {
       {({ isSubmitting, isValid, touched, errors }) => (
         <>
           <Form className="form mb-3">
+            <label className="visually-hidden" htmlFor="new-task">
+              New task
+            </label>
             <div className="input-group">
               <Field
                 type="text"
@@ -60,6 +63,7 @@ const NewTaskForm = () => {
                 placeholder="Please type text..."
                 name="text"
                 readOnly={isSubmitting}
+                id="new-task"
               />
               <button
                 className="btn btn-outline-success"

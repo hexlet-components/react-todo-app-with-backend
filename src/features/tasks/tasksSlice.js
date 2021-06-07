@@ -20,9 +20,8 @@ const adapterSelectors = adapter.getSelectors((state) => state.tasks);
 const selectByCurrentListId = createSelector(
   adapterSelectors.selectAll,
   selectCurrentListId,
-  (tasks, currentListId) => {
-    return tasks.filter((task) => task.listId === currentListId);
-  }
+  (tasks, currentListId) =>
+    tasks.filter((task) => task.listId === currentListId)
 );
 
 export const tasksSelectors = { selectByCurrentListId, ...adapterSelectors };

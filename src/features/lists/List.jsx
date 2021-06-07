@@ -13,7 +13,6 @@ import {
   selectCurrentListId,
 } from '../../store/currentListIdSlice.js';
 import { listsActions } from './listsSlice.js';
-
 import routes from '../../api/routes.js';
 
 const listStates = {
@@ -56,7 +55,7 @@ const List = ({ list }) => {
 
   return (
     <div className="d-flex justify-content-between align-items-start">
-      <button onClick={setCurrent} className={currentClass}>
+      <button onClick={setCurrent} className={currentClass} type="button">
         {list.name}
       </button>
       {list.removable && (
@@ -65,6 +64,7 @@ const List = ({ list }) => {
           className="btn link-danger"
           disabled={state === listStates.loading}
           ref={buttonRef}
+          type="button"
         >
           <BsX />
         </button>

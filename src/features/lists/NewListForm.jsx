@@ -46,6 +46,9 @@ const NewListForm = () => {
     >
       {({ values, isSubmitting, errors, isValid, touched }) => (
         <Form className="form mb-3">
+          <label className="visually-hidden" htmlFor="new-list">
+            New list
+          </label>
           <div className="input-group">
             <Field
               type="text"

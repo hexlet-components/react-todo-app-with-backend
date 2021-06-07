@@ -19,27 +19,19 @@ parser: babel-eslint
 
 settings:
   import/resolver:
-    - webpack:
-        config: 'webpack.config.cjs'
-    - node
+    node
 
 rules:
   no-console: 0
-  arrow-body-style: 0
-  react/react-in-jsx-scope: 0
-  import/extensions: 0
   react/prop-types: 0
-  react/jsx-filename-extension:
-    - 1
-    - extensions:
-        - '.js'
-        - '.jsx'
+  import/extensions: 0
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
   no-param-reassign:
     - error
     - props: true
       ignorePropertyModificationsFor:
         - state
+  jsx-a11y/label-has-associated-control: [2, { "controlComponents": ["Field"] }]
 
   prettier/prettier:
     - error

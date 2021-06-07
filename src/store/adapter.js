@@ -1,3 +1,5 @@
+// @ts-check
+
 import { createEntityAdapter } from '@reduxjs/toolkit';
 
 const adapter = createEntityAdapter({
