@@ -55,9 +55,6 @@ const NewListForm = () => {
               name="text"
               value={values.text}
               className={cn('form-control', !!touched.text && (isValid ? 'is-valid' : 'is-invalid'))}
-                'is-valid': isValid && touched.text,
-                'is-invalid': !isValid && touched.text,
-              })}
               placeholder="List name..."
               readOnly={isSubmitting}
               required
