@@ -12,9 +12,6 @@ import { tasksActions, tasksSelectors } from './tasksSlice';
 import routes from '../../api/routes.js';
 import { selectCurrentListId } from '../../store/currentListIdSlice';
 
-const minLength = 3;
-const maxLength = 30;
-
 const NewTaskForm = () => {
   const dispatch = useDispatch();
   const currentListId = useSelector(selectCurrentListId);
@@ -26,8 +23,6 @@ const NewTaskForm = () => {
 
   const validationSchema = Yup.object().shape({
     text: Yup.string()
-      .min(minLength)
-      .max(maxLength)
       .required()
       .notOneOf(tasksNames),
   });
