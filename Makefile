@@ -4,7 +4,7 @@ install-deps:
 	npm ci
 
 start:
-	NODE_ENV=development heroku local -f Procfile.dev
+	heroku local -f Procfile.dev
 
 start-backend:
 	npx cross-env NODE_ENV=development nodemon bin/slack.js
