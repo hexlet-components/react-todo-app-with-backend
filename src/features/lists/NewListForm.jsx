@@ -51,7 +51,7 @@ const NewListForm = () => {
               type="text"
               name="text"
               value={values.text}
-              className={cn('form-control', {
+              className={cn('form-control', !!touched.text && (isValid ? 'is-valid' : 'is-invalid'))}
                 'is-valid': isValid && touched.text,
                 'is-invalid': !isValid && touched.text,
               })}
