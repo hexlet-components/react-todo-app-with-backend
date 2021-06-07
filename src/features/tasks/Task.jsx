@@ -54,10 +54,10 @@ const Task = ({ task }) => {
             id={`task-${task.id}`}
             className="me-2"
             type="checkbox"
-            defaultChecked={task.completed}
             onChange={toggleCompleted}
             disabled={state === taskStates.loading}
             ref={checkboxRef}
+            checked={task.completed}
           />
           {task.completed ? <s>{task.text}</s> : task.text}
         </label>
