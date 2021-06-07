@@ -1,17 +1,19 @@
 // @ts-check
 
-import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
+
 import { BsCheck } from 'react-icons/bs';
 
-import { listsActions } from './listsSlice.js';
+import { listsActions, listsSelectors } from './listsSlice';
 import routes from '../../api/routes.js';
+import * as Yup from 'yup';
+import cn from 'classnames';
 
 const NewListForm = () => {
   const dispatch = useDispatch();
-  const inputRef = useRef();
 
   const addList = async ({ text }, { resetForm }) => {
     try {
@@ -22,12 +24,27 @@ const NewListForm = () => {
     } catch (error) {
       console.log(error);
     }
-    inputRef.current?.focus();
   };
 
+  const lists = useSelector(listsSelectors.selectAll);
+  const listsNames = useMemo(() => {
+    return lists.map((i) => i.name);
+  }, [lists]);
+
+  const validationSchema = Yup.object().shape({
+    text: Yup.string().required().notOneOf(listsNames),
+  });
+
   return (
-    <Formik initialValues={{ text: '' }} onSubmit={addList}>
-      {({ isSubmitting }) => (
+    <Formik
+      initialValues={{ text: '' }}
+      onSubmit={addList}
+      validationSchema={validationSchema}
+      validateOnBlur={false}
+      validateOnMount={false}
+      validateOnChange={false}
+    >
+      {({ values, isSubmitting, errors, isValid, touched }) => (
         <Form className="form mb-3">
           <label className="visually-hidden" htmlFor="new-list">
             New list
@@ -36,20 +53,23 @@ const NewListForm = () => {
             <Field
               type="text"
               name="text"
-              className="form-control"
+              value={values.text}
+              className={cn('form-control', !!touched.text && (isValid ? 'is-valid' : 'is-invalid'))}
               placeholder="List name..."
               readOnly={isSubmitting}
-              innerRef={inputRef}
               required
               id="new-list"
             />
             <button
               className="btn btn-outline-success"
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !values.text.trim()}
             >
               <BsCheck />
             </button>
+            {errors.text && (
+              <div className="invalid-feedback">{errors.text}</div>
+            )}
           </div>
         </Form>
       )}
