@@ -7,11 +7,10 @@ start:
 	heroku local -f Procfile.dev
 
 start-backend:
-	npx nodemon bin/slack.js
+	npx cross-env NODE_ENV=development nodemon bin/slack.js
 
 start-frontend:
 	npx webpack serve
-
 build:
 	npm run build
 
