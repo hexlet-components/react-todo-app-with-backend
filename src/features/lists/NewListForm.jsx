@@ -58,13 +58,12 @@ const NewListForm = () => {
               )}
               placeholder="List name..."
               readOnly={isSubmitting}
-              required
               id="new-list"
             />
             <button
               className="btn btn-outline-success"
               type="submit"
-              disabled={isSubmitting || !values.text.trim()}
+              disabled={isSubmitting}
             >
               <BsCheck />
               <span className="visually-hidden">add list</span>
