@@ -46,7 +46,7 @@ const NewTaskForm = () => {
     >
       {({ isSubmitting, isValid, touched, errors }) => (
         <>
-          <Form className="form mb-3">
+          <Form className="form mb-3" id="task-form">
             <label className="visually-hidden" htmlFor="new-task">
               New task
             </label>
