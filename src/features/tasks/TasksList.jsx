@@ -13,7 +13,7 @@ const TasksList = () => {
     return <div>Tasks list is empty</div>;
   }
   return (
-    <ul className="list-group">
+    <ul className="list-group" data-testid="tasks">
       {tasks.map((task) => (
         <li className="list-group-item container" key={task.id}>
           <Task task={task} />

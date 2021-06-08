@@ -10,7 +10,7 @@ const ListsList = () => {
   const lists = useSelector(listsSelectors.selectAll);
 
   return (
-    <ul className="list-group list-group-flush">
+    <ul className="list-group list-group-flush" data-testid="lists">
       {lists.map((list) => (
         <li className="list-group-item" key={list.id}>
           <List list={list} />

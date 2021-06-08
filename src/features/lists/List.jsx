@@ -67,6 +67,7 @@ const List = ({ list }) => {
           type="button"
         >
           <BsX />
+          <span className="visually-hidden">remove list</span>
         </button>
       )}
     </div>

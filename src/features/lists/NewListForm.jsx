@@ -43,7 +43,7 @@ const NewListForm = () => {
       validateOnChange={false}
     >
       {({ values, isSubmitting, errors, isValid, touched }) => (
-        <Form className="form mb-3" id="list-form">
+        <Form className="form mb-3" data-testid="list-form">
           <label className="visually-hidden" htmlFor="new-list">
             New list
           </label>
