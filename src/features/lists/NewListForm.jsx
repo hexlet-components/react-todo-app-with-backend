@@ -67,6 +67,7 @@ const NewListForm = () => {
               disabled={isSubmitting || !values.text.trim()}
             >
               <BsCheck />
+              <span className="visually-hidden">add list</span>
             </button>
             {errors.text && (
               <div className="invalid-feedback">{errors.text}</div>
