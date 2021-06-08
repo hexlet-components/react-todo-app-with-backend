@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import cn from 'classnames';
-
+import { toast } from 'react-toastify';
 import { BsX } from 'react-icons/bs';
 
 import {
@@ -43,7 +43,7 @@ const List = ({ list }) => {
     } catch (err) {
       setState(listStates.idle);
       buttonRef.current?.focus();
-      console.log(err);
+      toast('Network error');
     }
   };
 

@@ -1,16 +1,16 @@
 // @ts-check
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
-
+import * as Yup from 'yup';
+import cn from 'classnames';
+import { toast } from 'react-toastify';
 import { BsCheck } from 'react-icons/bs';
 
 import { listsActions, listsSelectors } from './listsSlice';
 import routes from '../../api/routes.js';
-import * as Yup from 'yup';
-import cn from 'classnames';
 
 const NewListForm = () => {
   const dispatch = useDispatch();
@@ -22,14 +22,12 @@ const NewListForm = () => {
       dispatch(listsActions.add(response.data));
       resetForm();
     } catch (error) {
-      console.log(error);
+      toast('Network error');
     }
   };
 
   const lists = useSelector(listsSelectors.selectAll);
-  const listsNames = useMemo(() => {
-    return lists.map((i) => i.name);
-  }, [lists]);
+  const listsNames = lists.map((i) => i.name);
 
   const validationSchema = Yup.object().shape({
     text: Yup.string().required().notOneOf(listsNames),
@@ -54,7 +52,10 @@ const NewListForm = () => {
               type="text"
               name="text"
               value={values.text}
-              className={cn('form-control', !!touched.text && (isValid ? 'is-valid' : 'is-invalid'))}
+              className={cn(
+                'form-control',
+                !!touched.text && (isValid ? 'is-valid' : 'is-invalid')
+              )}
               placeholder="List name..."
               readOnly={isSubmitting}
               required

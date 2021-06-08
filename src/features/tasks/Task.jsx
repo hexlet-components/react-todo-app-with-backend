@@ -3,6 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { tasksActions } from './tasksSlice.js';
 import routes from '../../api/routes.js';
@@ -29,7 +30,7 @@ const Task = ({ task }) => {
     } catch (err) {
       setState(taskStates.idle);
       buttonRef.current?.focus();
-      console.log(err);
+      toast('Network error');
     }
   };
 
@@ -40,7 +41,7 @@ const Task = ({ task }) => {
       const { data } = await axios.patch(url, { completed: target.checked });
       dispatch(tasksActions.update(data));
     } catch (err) {
-      console.log(err);
+      toast('Network error');
     }
     setState(taskStates.idle);
     checkboxRef.current?.focus();

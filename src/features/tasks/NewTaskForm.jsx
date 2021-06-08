@@ -1,12 +1,13 @@
 // @ts-check
 /* eslint-disable no-template-curly-in-string */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 
 import { tasksActions, tasksSelectors } from './tasksSlice';
 import routes from '../../api/routes.js';
@@ -17,14 +18,10 @@ const NewTaskForm = () => {
   const currentListId = useSelector(selectCurrentListId);
 
   const tasks = useSelector(tasksSelectors.selectByCurrentListId);
-  const tasksNames = useMemo(() => {
-    return tasks.map((i) => i.text);
-  }, [tasks]);
+  const tasksNames = tasks.map((i) => i.text);
 
   const validationSchema = Yup.object().shape({
-    text: Yup.string()
-      .required()
-      .notOneOf(tasksNames),
+    text: Yup.string().required().notOneOf(tasksNames),
   });
 
   const addTask = async ({ text }, { resetForm }) => {
@@ -34,7 +31,7 @@ const NewTaskForm = () => {
       dispatch(tasksActions.add(response.data));
       resetForm();
     } catch (error) {
-      console.log(error);
+      toast('Network error');
     }
   };
 
