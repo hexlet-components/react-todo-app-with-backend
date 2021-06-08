@@ -4,6 +4,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 import adapter from '../../store/adapter.js';
 import { selectCurrentListId } from '../../store/currentListIdSlice.js';
+import { listsActions } from '../lists/listsSlice.js';
 
 const slice = createSlice({
   name: 'tasks',
@@ -12,6 +13,15 @@ const slice = createSlice({
     add: adapter.addOne,
     update: adapter.upsertOne,
     remove: adapter.removeOne,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(listsActions.remove, (state, { payload }) => {
+      const tasksIds = Object.values(state.entities).reduce(
+        (acc, { listId, id }) => (listId === payload ? [...acc, id] : acc),
+        []
+      );
+      adapter.removeMany(state, tasksIds);
+    });
   },
 });
 

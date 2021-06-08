@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { BsCheck } from 'react-icons/bs';
 
 import { listsActions, listsSelectors } from './listsSlice';
+import { setCurrentListId } from '../../store/currentListIdSlice';
 import routes from '../../api/routes.js';
 
 const NewListForm = () => {
@@ -18,8 +19,9 @@ const NewListForm = () => {
   const addList = async ({ text }, { resetForm }) => {
     try {
       const url = routes.lists();
-      const response = await axios.post(url, { name: text });
-      dispatch(listsActions.add(response.data));
+      const { data } = await axios.post(url, { name: text });
+      dispatch(listsActions.add(data));
+      dispatch(setCurrentListId(data.id));
       resetForm();
     } catch (error) {
       toast('Network error');

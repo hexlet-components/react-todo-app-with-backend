@@ -15,6 +15,7 @@ import {
 import { listsActions } from './listsSlice.js';
 import routes from '../../api/routes.js';
 
+const defaultListId = 1; // TODO move to config or context or whatever
 const listStates = {
   idle: 'idle',
   loading: 'loading',
@@ -40,6 +41,7 @@ const List = ({ list }) => {
       await axios.delete(url);
       setState(listStates.idle);
       dispatch(listsActions.remove(list.id));
+      dispatch(setCurrentListId(defaultListId));
     } catch (err) {
       setState(listStates.idle);
       buttonRef.current?.focus();
