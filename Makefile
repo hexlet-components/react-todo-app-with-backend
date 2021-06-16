@@ -26,4 +26,7 @@ publish:
 tag:
 	git tag $(TAG) && git push --tags
 
+deploy:
+	git push heroku master
+
 .PHONY: test

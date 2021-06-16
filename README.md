@@ -2,6 +2,8 @@
 
 Пример реализации ToDo-list на React.
 
+[Online](https://react-todo-app-with-backend.herokuapp.com/)
+
 ## Участие
 
 - Обсуждение в канале [#hexlet-volunteers](https://slack-ru.hexlet.io) слака
