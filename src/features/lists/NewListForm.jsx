@@ -3,7 +3,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
-import Spinner from '../../app/Spinner';
 import axios from 'axios';
 
 import { BsCheck } from 'react-icons/bs';
@@ -67,14 +66,19 @@ const NewListForm = () => {
                 type="submit"
                 disabled={isSubmitting || !values.text.trim()}
               >
-                <BsCheck />
+                {isSubmitting ? (
+                  <span
+                    className="spinner-border me-1 spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                ) :  <BsCheck /> }
               </button>
               {errors.text && (
                 <div className="invalid-feedback">{errors.text}</div>
               )}
             </div>
           </Form>
-          {isSubmitting ? <Spinner /> : null}
         </>
       )}
     </Formik>

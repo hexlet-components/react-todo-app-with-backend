@@ -2,7 +2,6 @@
 /* eslint-disable no-template-curly-in-string */
 
 import React, { useMemo } from 'react';
-import Spinner from '../../app/Spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
@@ -72,6 +71,13 @@ const NewTaskForm = () => {
                 type="submit"
                 disabled={isSubmitting}
               >
+                {isSubmitting && (
+                  <span
+                    className="spinner-border me-1 spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                )}
                 Add
               </button>
               {errors.text && (
@@ -79,7 +85,6 @@ const NewTaskForm = () => {
               )}
             </div>
           </Form>
-          {isSubmitting ? <Spinner /> : null}
         </>
       )}
     </Formik>
