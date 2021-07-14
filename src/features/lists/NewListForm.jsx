@@ -3,7 +3,6 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
-import Spinner from '../../app/Spinner';
 import axios from 'axios';
 
 import { BsCheck } from 'react-icons/bs';
@@ -46,36 +45,41 @@ const NewListForm = () => {
       validateOnChange={false}
     >
       {({ values, isSubmitting, errors, isValid, touched }) => (
-        <>
-          <Form className="form mb-3">
-            <div className="input-group">
-              <Field
-                type="text"
-                name="text"
-                value={values.text}
-                className={cn('form-control', {
-                  'is-valid': isValid && touched.text,
-                  'is-invalid': !isValid && touched.text,
-                })}
-                placeholder="List name..."
-                readOnly={isSubmitting}
-                required
-                id="new-list"
-              />
-              <button
-                className="btn btn-outline-success"
-                type="submit"
-                disabled={isSubmitting || !values.text.trim()}
-              >
+        <Form className="form mb-3">
+          <div className="input-group">
+            <Field
+              type="text"
+              name="text"
+              value={values.text}
+              className={cn('form-control', {
+                'is-valid': isValid && touched.text,
+                'is-invalid': !isValid && touched.text,
+              })}
+              placeholder="List name..."
+              readOnly={isSubmitting}
+              required
+              id="new-list"
+            />
+            <button
+              className="btn btn-outline-success"
+              type="submit"
+              disabled={isSubmitting || !values.text.trim()}
+            >
+              {isSubmitting ? (
+                <span
+                  className="spinner-border me-1 spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              ) : (
                 <BsCheck />
-              </button>
-              {errors.text && (
-                <div className="invalid-feedback">{errors.text}</div>
               )}
-            </div>
-          </Form>
-          {isSubmitting ? <Spinner /> : null}
-        </>
+            </button>
+            {errors.text && (
+              <div className="invalid-feedback">{errors.text}</div>
+            )}
+          </div>
+        </Form>
       )}
     </Formik>
   );

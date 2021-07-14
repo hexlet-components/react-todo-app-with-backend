@@ -1,12 +1,12 @@
 // @ts-check
 
 import React, { useRef, useState } from 'react';
-import Spinner from '../../app/Spinner';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { tasksActions } from './tasksSlice.js';
 import routes from '../../api/routes.js';
+import Spinner from '../../app/Spinner';
 
 const taskStates = {
   idle: 'idle',
@@ -48,9 +48,11 @@ const Task = ({ task }) => {
     checkboxRef.current?.focus();
   };
 
-  const renderTask = () => {
-    return (
-      <>
+  const taskText = task.completed ? <s>{task.text}</s> : task.text;
+
+  return (
+    <>
+      <div className="row align-items-center justify-content-between">
         <div className="col-8">
           <label className="pointer" htmlFor={`task-${task.id}`}>
             <input
@@ -62,7 +64,7 @@ const Task = ({ task }) => {
               disabled={state === taskStates.loading}
               ref={checkboxRef}
             />
-            {task.completed ? <s>{task.text}</s> : task.text}
+            {state === taskStates.loading ? <Spinner /> : taskText}
           </label>
         </div>
         <div className="col-4 d-flex justify-content-end">
@@ -76,13 +78,6 @@ const Task = ({ task }) => {
             Remove
           </button>
         </div>
-      </>
-    );
-  };
-  return (
-    <>
-      <div className="row align-items-center justify-content-between">
-        {state === 'loading' ? <Spinner /> : renderTask()}
       </div>
     </>
   );
