@@ -21,7 +21,7 @@ const NewTaskForm = () => {
   const tasksNames = tasks.map((i) => i.text);
 
   const validationSchema = Yup.object().shape({
-    text: Yup.string().required().notOneOf(tasksNames),
+    text: Yup.string().trim().required().min(3).max(20).notOneOf(tasksNames),
   });
 
   const addTask = async ({ text }, { resetForm }) => {

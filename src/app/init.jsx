@@ -3,11 +3,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import keyBy from 'lodash/keyBy.js';
+import { setLocale } from 'yup';
 
 import adapter from '../store/adapter.js';
 import createStore from '../store/index.js';
 import App from './App.jsx';
-import { setLocale } from 'yup';
 
 const normalize = (entities) => keyBy(entities, 'id');
 
@@ -15,13 +15,11 @@ const init = (preloadedState) => {
   setLocale({
     mixed: {
       required: 'Required!',
-      notOneOf: ({ value }) => {
-        return `${value} already exists`;
-      },
+      notOneOf: ({ value }) => `${value} already exists`,
     },
     string: {
-      min: 'Too Small! Required length > ${min}',
-      max: 'Too Long! Required length < ${max}',
+      min: ({ min }) => `Too small! Min ${min} symbols`,
+      max: ({ max }) => `Too long! Max ${max} symbols`,
     },
   });
 

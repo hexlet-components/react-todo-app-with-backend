@@ -32,7 +32,7 @@ const NewListForm = () => {
   const listsNames = lists.map((i) => i.name);
 
   const validationSchema = Yup.object().shape({
-    text: Yup.string().required().notOneOf(listsNames),
+    text: Yup.string().trim().required().min(3).max(20).notOneOf(listsNames),
   });
 
   return (
