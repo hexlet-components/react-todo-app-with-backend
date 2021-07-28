@@ -1,5 +1,4 @@
 ---
-
 env:
   browser: true
   es2021: true
@@ -15,11 +14,10 @@ plugins:
   - jsx-a11y
   - prettier
 
-parser: babel-eslint
+parser: "@babel/eslint-parser"
 
 settings:
-  import/resolver:
-    node
+  import/resolver: node
 
 rules:
   no-console: 0
@@ -36,7 +34,7 @@ rules:
   prettier/prettier:
     - error
     - singleQuote: true
-      trailingComma: 'es5'
+      trailingComma: "es5"
       tabWidth: 2
 
 parserOptions:
