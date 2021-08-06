@@ -34,7 +34,7 @@ export default (app, defaultState = {}) => {
 
   app
     .get('/', (_req, reply) => {
-      reply.view('index.pug', { gon: state });
+      reply.view('index.pug');
     })
     .post('/api/v1/lists', (req, reply) => {
       const { name } = req.body;
