@@ -1,7 +1,7 @@
 // @ts-check
 
 // eslint-disable-next-line import/no-unresolved
-import gon from 'gon';
+// import gon from 'gon';
 import ReactDOM from 'react-dom';
 
 import 'core-js/stable/index.js';
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'todo-list:*';
 }
 
-const app = init(gon);
+const app = init();
 
 const container = document.getElementById('root');
 ReactDOM.render(app, container);

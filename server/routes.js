@@ -79,5 +79,14 @@ export default (app, defaultState = {}) => {
       state.tasks = state.tasks.filter((t) => t.id !== taskId);
 
       reply.code(204).send();
+    })
+    .get('/api/v1/lists', (req, reply) => {
+      reply.code(200).send(state.lists);
+    })
+    .get('/api/v1/lists/:id/tasks', (req, reply) => {
+      const tasks = state.tasks.filter(
+        ({ listId }) => listId === Number(req.params.id)
+      );
+      reply.code(200).send(tasks);
     });
 };

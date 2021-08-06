@@ -1,26 +1,28 @@
 // @ts-check
 
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { BsCheck } from 'react-icons/bs';
 
-import { listsActions, listsSelectors } from './listsSlice';
 import { setCurrentListId } from '../../store/currentListIdSlice';
-import routes from '../../api/routes.js';
+import { useAddListMutation, useGetListsQuery } from '../../services/api';
 
 const NewListForm = () => {
   const dispatch = useDispatch();
+  const { data: lists, isLoading } = useGetListsQuery();
+  const [addList] = useAddListMutation();
 
-  const addList = async ({ text }, { resetForm }) => {
+  if (isLoading) {
+    return null;
+  }
+
+  const onSubmit = async ({ text }, { resetForm }) => {
     try {
-      const url = routes.lists();
-      const { data } = await axios.post(url, { name: text });
-      dispatch(listsActions.add(data));
+      const data = await addList({ name: text }).unwrap();
       dispatch(setCurrentListId(data.id));
       resetForm();
     } catch (error) {
@@ -28,7 +30,6 @@ const NewListForm = () => {
     }
   };
 
-  const lists = useSelector(listsSelectors.selectAll);
   const listsNames = lists.map((i) => i.name);
 
   const validationSchema = Yup.object().shape({
@@ -38,7 +39,7 @@ const NewListForm = () => {
   return (
     <Formik
       initialValues={{ text: '' }}
-      onSubmit={addList}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
       validateOnBlur={false}
       validateOnMount={false}

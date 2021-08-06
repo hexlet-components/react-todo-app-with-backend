@@ -1,34 +1,27 @@
 // @ts-check
 
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import axios from 'axios';
+import React, { useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { tasksActions } from './tasksSlice.js';
-import routes from '../../api/routes.js';
-
-const taskStates = {
-  idle: 'idle',
-  loading: 'loading',
-};
+import {
+  useRemoveTaskMutation,
+  useToggleCompletedMutation,
+} from '../../services/api.js';
 
 const Task = ({ task }) => {
-  const dispatch = useDispatch();
-  const [state, setState] = useState(taskStates.idle);
+  const [removeTask, { isLoading: isLoadingOnRemove }] =
+    useRemoveTaskMutation();
+  const [toggleTaskCompleted, { isLoading: isLoadingOnToggleCompleted }] =
+    useToggleCompletedMutation();
+  const isLoading = isLoadingOnRemove || isLoadingOnToggleCompleted;
 
   const checkboxRef = useRef();
   const buttonRef = useRef();
 
   const remove = async () => {
     try {
-      setState(taskStates.loading);
-      const url = routes.task(task.id);
-      await axios.delete(url);
-      setState(taskStates.idle);
-      dispatch(tasksActions.remove(task.id));
+      await removeTask(task.id);
     } catch (err) {
-      setState(taskStates.idle);
       buttonRef.current?.focus();
       toast('Network error');
     }
@@ -36,14 +29,10 @@ const Task = ({ task }) => {
 
   const toggleCompleted = async ({ target }) => {
     try {
-      setState(taskStates.loading);
-      const url = routes.task(task.id);
-      const { data } = await axios.patch(url, { completed: target.checked });
-      dispatch(tasksActions.update(data));
+      await toggleTaskCompleted({ id: task.id, completed: target.checked });
     } catch (err) {
       toast('Network error');
     }
-    setState(taskStates.idle);
     checkboxRef.current?.focus();
   };
 
@@ -56,7 +45,7 @@ const Task = ({ task }) => {
             className="me-2"
             type="checkbox"
             onChange={toggleCompleted}
-            disabled={state === taskStates.loading}
+            disabled={isLoading}
             ref={checkboxRef}
             checked={task.completed}
           />
@@ -68,7 +57,7 @@ const Task = ({ task }) => {
           onClick={remove}
           className="btn btn-sm btn-danger"
           type="button"
-          disabled={state === taskStates.loading}
+          disabled={isLoading}
           ref={buttonRef}
         >
           Remove
