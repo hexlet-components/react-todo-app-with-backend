@@ -9,6 +9,14 @@ import { selectCurrentListId } from '../../store/currentListIdSlice.js';
 import Task from './Task.jsx';
 import Loader from '../../lib/Loader.jsx';
 
+const sortComparer = (a, b) => {
+  if (a.completed === b.completed) {
+    return b.touched - a.touched;
+  }
+
+  return a.completed ? 1 : -1;
+};
+
 const TasksList = () => {
   const currentListId = useSelector(selectCurrentListId);
   const {
@@ -31,11 +39,14 @@ const TasksList = () => {
 
   return (
     <ul className="list-group" data-testid="tasks">
-      {tasks.map((task) => (
-        <li className="list-group-item container" key={task.id}>
-          <Task task={task} />
-        </li>
-      ))}
+      {tasks
+        .slice()
+        .sort(sortComparer)
+        .map((task) => (
+          <li className="list-group-item container" key={task.id}>
+            <Task task={task} />
+          </li>
+        ))}
     </ul>
   );
 };
