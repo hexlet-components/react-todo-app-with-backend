@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-check
 
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { BsX } from 'react-icons/bs';
@@ -12,18 +11,12 @@ import {
   setCurrentListId,
   selectCurrentListId,
 } from '../../store/currentListIdSlice.js';
-import { listsActions } from './listsSlice.js';
-import routes from '../../api/routes.js';
-
-const defaultListId = 1; // TODO move to config or context or whatever
-const listStates = {
-  idle: 'idle',
-  loading: 'loading',
-};
+import { useRemoveListMutation } from '../../services/api.js';
+import defaultListId from '../../config/index.js';
 
 const List = ({ list }) => {
   const dispatch = useDispatch();
-  const [state, setState] = useState(listStates.idle);
+  const [removeList, { isLoading }] = useRemoveListMutation();
 
   const currentListId = useSelector(selectCurrentListId);
 
@@ -36,14 +29,9 @@ const List = ({ list }) => {
 
   const remove = async () => {
     try {
-      setState(listStates.loading);
-      const url = routes.list(list.id);
-      await axios.delete(url);
-      setState(listStates.idle);
-      dispatch(listsActions.remove(list.id));
+      await removeList(list.id);
       dispatch(setCurrentListId(defaultListId));
     } catch (err) {
-      setState(listStates.idle);
       buttonRef.current?.focus();
       toast('Network error');
     }
@@ -64,7 +52,7 @@ const List = ({ list }) => {
         <button
           onClick={remove}
           className="btn link-danger"
-          disabled={state === listStates.loading}
+          disabled={isLoading}
           ref={buttonRef}
           type="button"
         >

@@ -1,34 +1,37 @@
 // @ts-check
-/* eslint-disable no-template-curly-in-string */
 
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 
-import { tasksActions, tasksSelectors } from './tasksSlice';
-import routes from '../../api/routes.js';
 import { selectCurrentListId } from '../../store/currentListIdSlice';
+import {
+  useAddTaskMutation,
+  useGetTasksByListIdQuery,
+} from '../../services/api';
 
 const NewTaskForm = () => {
-  const dispatch = useDispatch();
   const currentListId = useSelector(selectCurrentListId);
 
-  const tasks = useSelector(tasksSelectors.selectByCurrentListId);
+  const { data: tasks, isLoading } = useGetTasksByListIdQuery(currentListId);
+  const [addTask] = useAddTaskMutation();
+
+  if (isLoading) {
+    return null;
+  }
+
   const tasksNames = tasks.map((i) => i.text);
 
   const validationSchema = Yup.object().shape({
     text: Yup.string().trim().required().min(3).max(20).notOneOf(tasksNames),
   });
 
-  const addTask = async ({ text }, { resetForm }) => {
+  const onSubmit = async ({ text }, { resetForm }) => {
     try {
-      const url = routes.listTasks(currentListId);
-      const response = await axios.post(url, { text });
-      dispatch(tasksActions.add(response.data));
+      await addTask({ listId: currentListId, text });
       resetForm();
     } catch (error) {
       toast('Network error');
@@ -39,7 +42,7 @@ const NewTaskForm = () => {
     <Formik
       initialValues={{ text: '' }}
       validationSchema={validationSchema}
-      onSubmit={addTask}
+      onSubmit={onSubmit}
       validateOnBlur={false}
       validateOnMount={false}
       validateOnChange={false}

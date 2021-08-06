@@ -1,13 +1,23 @@
 // @ts-check
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import { useGetListsQuery } from '../../services/api.js';
+import Loader from '../../lib/Loader.jsx';
 import List from './List.jsx';
-import { listsSelectors } from './listsSlice.js';
 
 const ListsList = () => {
-  const lists = useSelector(listsSelectors.selectAll);
+  const { data: lists, error, isLoading } = useGetListsQuery();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    toast('Network error');
+    return <span>Error while loading</span>;
+  }
 
   return (
     <ul className="list-group list-group-flush" data-testid="lists">
