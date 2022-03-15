@@ -20,7 +20,7 @@ jobs:
           node-version: '16.x'
           cache: npm
       - name: Install
-        run: make install
+        run: make install-deps
       - name: Run linter
         run: make lint
       - name: Run test
