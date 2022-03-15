@@ -14,7 +14,7 @@
     "start": "node bin/slack.js",
     "test": "echo 'write tests!'",
     "lint": "npx eslint . --ext .jsx,.js",
-    "prepare": "make build"
+    "prepare": "npm run build"
   },
   "simple-git-hooks": {
     "pre-push": "make lint"
