@@ -2,22 +2,22 @@
 
 [![github action status](https://github.com/hexlet-components/react-todo-app-with-backend/workflows/Node%20CI/badge.svg)](../../actions)
 
-Пример реализации ToDo-list на React.
+An example of ToDo-list implementation in React.
 
 [Online](https://react-todo-app-with-backend.hexlet.app/)
 
-## Участие
+## How to contribute
 
-* Обсуждение в канале [#hexlet-volunteers](https://slack-ru.hexlet.io) слака
+* Discussions in #hexlet-volunteers [Slack channel](https://slack.hexlet.io/)
 
-## Системные требования
+## Requirements
 
 * Node.js >= 14
 * npm >= 7
 * make >= 4 (optional)
 * [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
-## Установка
+## Setup
 
 ```bash
 make setup
