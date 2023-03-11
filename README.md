@@ -8,7 +8,7 @@ An example of ToDo-list implementation in React.
 
 ## How to contribute
 
-* Discussions in #hexlet-volunteers [Slack channel](https://slack.hexlet.io/)
+* Discuss the project on [Telegram Hexlet](https://t.me/hexletcommunity/12)
 
 ## Requirements
 
