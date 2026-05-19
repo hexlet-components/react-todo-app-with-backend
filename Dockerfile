@@ -1,4 +1,4 @@
-FROM node:16-slim
+FROM node:26-slim
 
 RUN apt-get update && apt-get install -yq make
 
