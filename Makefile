@@ -10,7 +10,7 @@ start-backend:
 	npx cross-env NODE_ENV=development nodemon bin/slack.js
 
 start-frontend:
-	npx webpack serve
+	npx vite
 build:
 	npm run build
 

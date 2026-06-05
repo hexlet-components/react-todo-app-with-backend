@@ -1,15 +1,13 @@
 // @ts-check
 
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Formik, Field, Form } from 'formik';
-import * as Yup from 'yup';
 import cn from 'classnames';
-import { toast } from 'react-toastify';
+import { Field, Form, Formik } from 'formik';
 import { BsCheck } from 'react-icons/bs';
-
-import { setCurrentListId } from '../../store/currentListIdSlice';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 import { useAddListMutation, useGetListsQuery } from '../../services/api';
+import { setCurrentListId } from '../../store/currentListIdSlice';
 
 const NewListForm = () => {
   const dispatch = useDispatch();
@@ -25,7 +23,7 @@ const NewListForm = () => {
       const data = await addList({ name: text }).unwrap();
       dispatch(setCurrentListId(data.id));
       resetForm();
-    } catch (error) {
+    } catch (_error) {
       toast('Network error');
     }
   };
@@ -57,7 +55,7 @@ const NewListForm = () => {
               value={values.text}
               className={cn(
                 'form-control',
-                !!touched.text && (isValid ? 'is-valid' : 'is-invalid')
+                !!touched.text && (isValid ? 'is-valid' : 'is-invalid'),
               )}
               placeholder="List name..."
               readOnly={isSubmitting}

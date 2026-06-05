@@ -1,9 +1,6 @@
 // @ts-check
 
-import ReactDOM from 'react-dom';
-
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
+import { createRoot } from 'react-dom/client';
 
 import '../assets/application.scss';
 
@@ -16,4 +13,4 @@ if (process.env.NODE_ENV !== 'production') {
 const app = init();
 
 const container = document.getElementById('root');
-ReactDOM.render(app, container);
+createRoot(container).render(app);

@@ -1,17 +1,15 @@
 // @ts-check
 
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Formik, Field, Form } from 'formik';
-import * as Yup from 'yup';
 import cn from 'classnames';
+import { Field, Form, Formik } from 'formik';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-
-import { selectCurrentListId } from '../../store/currentListIdSlice';
+import * as Yup from 'yup';
 import {
   useAddTaskMutation,
   useGetTasksByListIdQuery,
 } from '../../services/api';
+import { selectCurrentListId } from '../../store/currentListIdSlice';
 
 const NewTaskForm = () => {
   const currentListId = useSelector(selectCurrentListId);
@@ -33,7 +31,7 @@ const NewTaskForm = () => {
     try {
       await addTask({ listId: currentListId, text });
       resetForm();
-    } catch (error) {
+    } catch (_error) {
       toast('Network error');
     }
   };

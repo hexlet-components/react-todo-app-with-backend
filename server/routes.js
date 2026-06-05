@@ -80,12 +80,12 @@ export default (app, defaultState = {}) => {
 
       reply.code(204).send();
     })
-    .get('/api/v1/lists', (req, reply) => {
+    .get('/api/v1/lists', (_req, reply) => {
       reply.code(200).send(state.lists);
     })
     .get('/api/v1/lists/:id/tasks', (req, reply) => {
       const tasks = state.tasks.filter(
-        ({ listId }) => listId === Number(req.params.id)
+        ({ listId }) => listId === Number(req.params.id),
       );
       reply.code(200).send(tasks);
     });

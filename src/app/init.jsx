@@ -1,6 +1,5 @@
 // @ts-check
 
-import React from 'react';
 import { Provider } from 'react-redux';
 import { setLocale } from 'yup';
 

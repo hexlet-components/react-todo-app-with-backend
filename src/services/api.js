@@ -1,9 +1,6 @@
 // @ts-check
 
-import {
-  createApi,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/dist/query/react/index.js';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import routes, { baseUrl } from '../api/routes.js';
 

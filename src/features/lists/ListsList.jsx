@@ -1,10 +1,8 @@
 // @ts-check
 
-import React from 'react';
 import { toast } from 'react-toastify';
-
-import { useGetListsQuery } from '../../services/api.js';
 import Loader from '../../lib/Loader.jsx';
+import { useGetListsQuery } from '../../services/api.js';
 import List from './List.jsx';
 
 const ListsList = () => {

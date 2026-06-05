@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import {
@@ -21,7 +21,7 @@ const Task = ({ task }) => {
   const remove = async () => {
     try {
       await removeTask(task.id);
-    } catch (err) {
+    } catch (_err) {
       buttonRef.current?.focus();
       toast('Network error');
     }
@@ -30,7 +30,7 @@ const Task = ({ task }) => {
   const toggleCompleted = async ({ target }) => {
     try {
       await toggleTaskCompleted({ id: task.id, completed: target.checked });
-    } catch (err) {
+    } catch (_err) {
       toast('Network error');
     }
     checkboxRef.current?.focus();

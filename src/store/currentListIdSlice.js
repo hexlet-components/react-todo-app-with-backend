@@ -7,7 +7,7 @@ const slice = createSlice({
   name: 'currentListId',
   initialState: defaultListId,
   reducers: {
-    setCurrentListId: (state, action) => action.payload,
+    setCurrentListId: (_state, action) => action.payload,
   },
 });
 

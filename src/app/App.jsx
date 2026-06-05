@@ -1,12 +1,10 @@
 // @ts-check
 
-import React from 'react';
 import { ToastContainer } from 'react-toastify';
-
+import ListsList from '../features/lists/ListsList.jsx';
+import NewListForm from '../features/lists/NewListForm.jsx';
 import NewTaskForm from '../features/tasks/NewTaskForm.jsx';
 import TasksList from '../features/tasks/TasksList.jsx';
-import NewListForm from '../features/lists/NewListForm.jsx';
-import ListsList from '../features/lists/ListsList.jsx';
 
 const App = () => (
   <>

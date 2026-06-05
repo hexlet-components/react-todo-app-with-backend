@@ -1,11 +1,11 @@
 // @ts-check
 
-import Pug from 'pug';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import fastifyStatic from '@fastify/static';
+import pointOfView from '@fastify/view';
 import fastify from 'fastify';
-import pointOfView from 'point-of-view';
-import fastifyStatic from 'fastify-static';
+import Pug from 'pug';
 import addRoutes from './routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -36,7 +36,7 @@ const setUpStaticAssets = (app) => {
 };
 
 export default (options) => {
-  const app = fastify({ logger: { prettyPrint: true } });
+  const app = fastify({ logger: { transport: { target: 'pino-pretty' } } });
 
   setUpViews(app);
   setUpStaticAssets(app);

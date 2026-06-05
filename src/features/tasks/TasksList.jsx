@@ -1,13 +1,11 @@
 // @ts-check
 
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-
+import Loader from '../../lib/Loader.jsx';
 import { useGetTasksByListIdQuery } from '../../services/api.js';
 import { selectCurrentListId } from '../../store/currentListIdSlice.js';
 import Task from './Task.jsx';
-import Loader from '../../lib/Loader.jsx';
 
 const sortComparer = (a, b) => {
   if (a.completed === b.completed) {

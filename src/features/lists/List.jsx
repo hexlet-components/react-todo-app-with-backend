@@ -1,18 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-check
 
-import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
-import { toast } from 'react-toastify';
+import { useRef } from 'react';
 import { BsX } from 'react-icons/bs';
-
-import {
-  setCurrentListId,
-  selectCurrentListId,
-} from '../../store/currentListIdSlice.js';
-import { useRemoveListMutation } from '../../services/api.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import defaultListId from '../../config/index.js';
+import { useRemoveListMutation } from '../../services/api.js';
+import {
+  selectCurrentListId,
+  setCurrentListId,
+} from '../../store/currentListIdSlice.js';
 
 const List = ({ list }) => {
   const dispatch = useDispatch();
@@ -31,7 +30,7 @@ const List = ({ list }) => {
     try {
       await removeList(list.id);
       dispatch(setCurrentListId(defaultListId));
-    } catch (err) {
+    } catch (_err) {
       buttonRef.current?.focus();
       toast('Network error');
     }
@@ -40,7 +39,7 @@ const List = ({ list }) => {
   const currentClass = cn(
     currentListId === list.id ? 'link-primary' : 'link-secondary',
     'btn',
-    'btn-link'
+    'btn-link',
   );
 
   return (
