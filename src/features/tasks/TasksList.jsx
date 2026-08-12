@@ -1,11 +1,11 @@
 // @ts-check
 
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import Loader from '../../lib/Loader.jsx';
-import { useGetTasksByListIdQuery } from '../../services/api.js';
-import { selectCurrentListId } from '../../store/currentListIdSlice.js';
-import Task from './Task.jsx';
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Loader from "../../lib/Loader.jsx";
+import { useGetTasksByListIdQuery } from "../../services/api.js";
+import { selectCurrentListId } from "../../store/currentListIdSlice.js";
+import Task from "./Task.jsx";
 
 const sortComparer = (a, b) => {
   if (a.completed === b.completed) {
@@ -17,17 +17,13 @@ const sortComparer = (a, b) => {
 
 const TasksList = () => {
   const currentListId = useSelector(selectCurrentListId);
-  const {
-    data: tasks,
-    error,
-    isLoading,
-  } = useGetTasksByListIdQuery(currentListId);
+  const { data: tasks, error, isLoading } = useGetTasksByListIdQuery(currentListId);
 
   if (isLoading) {
     return <Loader />;
   }
   if (error) {
-    toast('Network error');
+    toast("Network error");
     return <span>Error while loading</span>;
   }
 

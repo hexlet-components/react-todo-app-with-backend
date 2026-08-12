@@ -1,15 +1,15 @@
 // @ts-check
 
-import { Provider } from 'react-redux';
-import { setLocale } from 'yup';
+import { Provider } from "react-redux";
+import { setLocale } from "yup";
 
-import store from '../store/index.js';
-import App from './App.jsx';
+import store from "../store/index.js";
+import App from "./App.jsx";
 
 const init = () => {
   setLocale({
     mixed: {
-      required: 'Required!',
+      required: "Required!",
       notOneOf: ({ value }) => `${value} already exists`,
     },
     string: {

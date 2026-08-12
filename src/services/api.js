@@ -1,24 +1,24 @@
 // @ts-check
 
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import routes, { baseUrl } from '../api/routes.js';
+import routes, { baseUrl } from "../api/routes.js";
 
 const httpMethods = {
-  GET: 'GET',
-  POST: 'POST',
-  PATCH: 'PATCH',
-  DELETE: 'DELETE',
-  PUT: 'PUT',
+  GET: "GET",
+  POST: "POST",
+  PATCH: "PATCH",
+  DELETE: "DELETE",
+  PUT: "PUT",
 };
 
 const tags = {
-  LIST: 'LIST',
-  TASK: 'TASK',
+  LIST: "LIST",
+  TASK: "TASK",
 };
 
 export const api = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getLists: builder.query({
@@ -38,10 +38,7 @@ export const api = createApi({
         url: routes.list(id),
         method: httpMethods.DELETE,
       }),
-      invalidatesTags: (_result, _error, id) => [
-        { type: tags.TASK, id },
-        tags.LIST,
-      ],
+      invalidatesTags: (_result, _error, id) => [{ type: tags.TASK, id }, tags.LIST],
     }),
     getTasksByListId: builder.query({
       query: routes.listTasks,

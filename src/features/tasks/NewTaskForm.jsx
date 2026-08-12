@@ -1,15 +1,12 @@
 // @ts-check
 
-import cn from 'classnames';
-import { Field, Form, Formik } from 'formik';
-import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import {
-  useAddTaskMutation,
-  useGetTasksByListIdQuery,
-} from '../../services/api';
-import { selectCurrentListId } from '../../store/currentListIdSlice';
+import cn from "classnames";
+import { Field, Form, Formik } from "formik";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { useAddTaskMutation, useGetTasksByListIdQuery } from "../../services/api";
+import { selectCurrentListId } from "../../store/currentListIdSlice";
 
 const NewTaskForm = () => {
   const currentListId = useSelector(selectCurrentListId);
@@ -31,14 +28,14 @@ const NewTaskForm = () => {
     try {
       await addTask({ listId: currentListId, text });
       resetForm();
-    } catch (_error) {
-      toast('Network error');
+    } catch {
+      toast("Network error");
     }
   };
 
   return (
     <Formik
-      initialValues={{ text: '' }}
+      initialValues={{ text: "" }}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
       validateOnBlur={false}
@@ -54,25 +51,19 @@ const NewTaskForm = () => {
             <div className="input-group">
               <Field
                 type="text"
-                className={cn('form-control', {
-                  'is-valid': isValid && touched.text,
-                  'is-invalid': !isValid && touched.text,
+                className={cn("form-control", {
+                  "is-valid": isValid && touched.text,
+                  "is-invalid": !isValid && touched.text,
                 })}
                 placeholder="Please type text..."
                 name="text"
                 readOnly={isSubmitting}
                 id="new-task"
               />
-              <button
-                className="btn btn-outline-success"
-                type="submit"
-                disabled={isSubmitting}
-              >
+              <button className="btn btn-outline-success" type="submit" disabled={isSubmitting}>
                 Add
               </button>
-              {errors.text && (
-                <div className="invalid-feedback">{errors.text}</div>
-              )}
+              {errors.text && <div className="invalid-feedback">{errors.text}</div>}
             </div>
           </Form>
         </>

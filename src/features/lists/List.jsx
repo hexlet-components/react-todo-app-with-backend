@@ -1,17 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-check
 
-import cn from 'classnames';
-import { useRef } from 'react';
-import { BsX } from 'react-icons/bs';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import defaultListId from '../../config/index.js';
-import { useRemoveListMutation } from '../../services/api.js';
-import {
-  selectCurrentListId,
-  setCurrentListId,
-} from '../../store/currentListIdSlice.js';
+import cn from "classnames";
+import { useRef } from "react";
+import { BsX } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import defaultListId from "../../config/index.js";
+import { useRemoveListMutation } from "../../services/api.js";
+import { selectCurrentListId, setCurrentListId } from "../../store/currentListIdSlice.js";
 
 const List = ({ list }) => {
   const dispatch = useDispatch();
@@ -30,16 +27,16 @@ const List = ({ list }) => {
     try {
       await removeList(list.id);
       dispatch(setCurrentListId(defaultListId));
-    } catch (_err) {
+    } catch {
       buttonRef.current?.focus();
-      toast('Network error');
+      toast("Network error");
     }
   };
 
   const currentClass = cn(
-    currentListId === list.id ? 'link-primary' : 'link-secondary',
-    'btn',
-    'btn-link',
+    currentListId === list.id ? "link-primary" : "link-secondary",
+    "btn",
+    "btn-link",
   );
 
   return (
