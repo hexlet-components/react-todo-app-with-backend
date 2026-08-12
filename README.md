@@ -6,6 +6,15 @@ An example of ToDo-list implementation in React.
 
 [Online](https://react-todo-app-with-backend.hexlet.app/)
 
+## Зачем это нужно
+
+Список задач на React с настоящим бэкендом: списки, задачи, состояние загрузки,
+обработка ошибок сети.
+
+Служит примером приложения, которое больше формы, но ещё читается целиком.
+На нём удобно показывать работу с сервером из React и раскладку кода по
+фичам: `src/features/tasks`, `src/features/lists`.
+
 ## How to contribute
 
 * Discuss the project on [Telegram Hexlet](https://t.me/hexletcommunity/12)
