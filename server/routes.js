@@ -1,6 +1,6 @@
 // @ts-check
 
-import _ from 'lodash';
+import _ from "lodash";
 
 const getNextId = () => Number(_.uniqueId());
 
@@ -9,8 +9,8 @@ const buildState = (defaultState) => {
   const secondaryListId = getNextId();
   const state = {
     lists: [
-      { id: primaryListId, name: 'primary', removable: false },
-      { id: secondaryListId, name: 'secondary', removable: true },
+      { id: primaryListId, name: "primary", removable: false },
+      { id: secondaryListId, name: "secondary", removable: true },
     ],
     tasks: [],
     currentListId: primaryListId,
@@ -33,10 +33,10 @@ export default (app, defaultState = {}) => {
   const state = buildState(defaultState);
 
   app
-    .get('/', (_req, reply) => {
-      reply.view('index.pug');
+    .get("/", (_req, reply) => {
+      reply.view("index.pug");
     })
-    .post('/api/v1/lists', (req, reply) => {
+    .post("/api/v1/lists", (req, reply) => {
       const { name } = req.body;
       const list = {
         name,
@@ -47,14 +47,14 @@ export default (app, defaultState = {}) => {
 
       reply.code(201).send(list);
     })
-    .delete('/api/v1/lists/:id', (req, reply) => {
+    .delete("/api/v1/lists/:id", (req, reply) => {
       const listId = Number(req.params.id);
       state.lists = state.lists.filter((l) => l.id !== listId);
       state.tasks = state.tasks.filter((t) => t.listId !== listId);
 
       reply.code(204).send();
     })
-    .post('/api/v1/lists/:id/tasks', (req, reply) => {
+    .post("/api/v1/lists/:id/tasks", (req, reply) => {
       const { text } = req.body;
       const task = {
         text,
@@ -66,7 +66,7 @@ export default (app, defaultState = {}) => {
       state.tasks.push(task);
       reply.code(201).send(task);
     })
-    .patch('/api/v1/tasks/:id', (req, reply) => {
+    .patch("/api/v1/tasks/:id", (req, reply) => {
       const taskId = Number(req.params.id);
       const { completed } = req.body;
       const task = state.tasks.find((t) => t.id === taskId);
@@ -74,19 +74,17 @@ export default (app, defaultState = {}) => {
       task.touched = Date.now();
       reply.code(201).send(task);
     })
-    .delete('/api/v1/tasks/:id', (req, reply) => {
+    .delete("/api/v1/tasks/:id", (req, reply) => {
       const taskId = Number(req.params.id);
       state.tasks = state.tasks.filter((t) => t.id !== taskId);
 
       reply.code(204).send();
     })
-    .get('/api/v1/lists', (_req, reply) => {
+    .get("/api/v1/lists", (_req, reply) => {
       reply.code(200).send(state.lists);
     })
-    .get('/api/v1/lists/:id/tasks', (req, reply) => {
-      const tasks = state.tasks.filter(
-        ({ listId }) => listId === Number(req.params.id),
-      );
+    .get("/api/v1/lists/:id/tasks", (req, reply) => {
+      const tasks = state.tasks.filter(({ listId }) => listId === Number(req.params.id));
       reply.code(200).send(tasks);
     });
 };

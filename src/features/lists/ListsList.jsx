@@ -1,9 +1,9 @@
 // @ts-check
 
-import { toast } from 'react-toastify';
-import Loader from '../../lib/Loader.jsx';
-import { useGetListsQuery } from '../../services/api.js';
-import List from './List.jsx';
+import { toast } from "react-toastify";
+import Loader from "../../lib/Loader.jsx";
+import { useGetListsQuery } from "../../services/api.js";
+import List from "./List.jsx";
 
 const ListsList = () => {
   const { data: lists, error, isLoading } = useGetListsQuery();
@@ -13,7 +13,7 @@ const ListsList = () => {
   }
 
   if (error) {
-    toast('Network error');
+    toast("Network error");
     return <span>Error while loading</span>;
   }
 

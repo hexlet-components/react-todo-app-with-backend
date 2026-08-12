@@ -1,13 +1,13 @@
 // @ts-check
 
-import cn from 'classnames';
-import { Field, Form, Formik } from 'formik';
-import { BsCheck } from 'react-icons/bs';
-import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import { useAddListMutation, useGetListsQuery } from '../../services/api';
-import { setCurrentListId } from '../../store/currentListIdSlice';
+import cn from "classnames";
+import { Field, Form, Formik } from "formik";
+import { BsCheck } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { useAddListMutation, useGetListsQuery } from "../../services/api";
+import { setCurrentListId } from "../../store/currentListIdSlice";
 
 const NewListForm = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const NewListForm = () => {
       dispatch(setCurrentListId(data.id));
       resetForm();
     } catch {
-      toast('Network error');
+      toast("Network error");
     }
   };
 
@@ -36,7 +36,7 @@ const NewListForm = () => {
 
   return (
     <Formik
-      initialValues={{ text: '' }}
+      initialValues={{ text: "" }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       validateOnBlur={false}
@@ -54,24 +54,18 @@ const NewListForm = () => {
               name="text"
               value={values.text}
               className={cn(
-                'form-control',
-                !!touched.text && (isValid ? 'is-valid' : 'is-invalid'),
+                "form-control",
+                !!touched.text && (isValid ? "is-valid" : "is-invalid"),
               )}
               placeholder="List name..."
               readOnly={isSubmitting}
               id="new-list"
             />
-            <button
-              className="btn btn-outline-success"
-              type="submit"
-              disabled={isSubmitting}
-            >
+            <button className="btn btn-outline-success" type="submit" disabled={isSubmitting}>
               <BsCheck />
               <span className="visually-hidden">add list</span>
             </button>
-            {errors.text && (
-              <div className="invalid-feedback">{errors.text}</div>
-            )}
+            {errors.text && <div className="invalid-feedback">{errors.text}</div>}
           </div>
         </Form>
       )}

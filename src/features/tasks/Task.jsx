@@ -1,16 +1,12 @@
 // @ts-check
 
-import { useRef } from 'react';
-import { toast } from 'react-toastify';
+import { useRef } from "react";
+import { toast } from "react-toastify";
 
-import {
-  useRemoveTaskMutation,
-  useToggleCompletedMutation,
-} from '../../services/api.js';
+import { useRemoveTaskMutation, useToggleCompletedMutation } from "../../services/api.js";
 
 const Task = ({ task }) => {
-  const [removeTask, { isLoading: isLoadingOnRemove }] =
-    useRemoveTaskMutation();
+  const [removeTask, { isLoading: isLoadingOnRemove }] = useRemoveTaskMutation();
   const [toggleTaskCompleted, { isLoading: isLoadingOnToggleCompleted }] =
     useToggleCompletedMutation();
   const isLoading = isLoadingOnRemove || isLoadingOnToggleCompleted;
@@ -23,7 +19,7 @@ const Task = ({ task }) => {
       await removeTask(task.id);
     } catch {
       buttonRef.current?.focus();
-      toast('Network error');
+      toast("Network error");
     }
   };
 
@@ -31,7 +27,7 @@ const Task = ({ task }) => {
     try {
       await toggleTaskCompleted({ id: task.id, completed: target.checked });
     } catch {
-      toast('Network error');
+      toast("Network error");
     }
     checkboxRef.current?.focus();
   };

@@ -1,10 +1,10 @@
 // @ts-check
 
-import { createSlice } from '@reduxjs/toolkit';
-import defaultListId from '../config/index.js';
+import { createSlice } from "@reduxjs/toolkit";
+import defaultListId from "../config/index.js";
 
 const slice = createSlice({
-  name: 'currentListId',
+  name: "currentListId",
   initialState: defaultListId,
   reducers: {
     setCurrentListId: (_state, action) => action.payload,
