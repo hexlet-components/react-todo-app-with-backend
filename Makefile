@@ -1,27 +1,28 @@
 setup: install-deps
 
 install-deps:
-	npm ci
+	pnpm install --frozen-lockfile
 
 start:
 	heroku local -f Procfile.dev
 
 start-backend:
-	npx cross-env NODE_ENV=development nodemon bin/slack.js
+	pnpm exec cross-env NODE_ENV=development nodemon bin/slack.js
 
 start-frontend:
-	npx vite
+	pnpm exec vite
 build:
-	npm run build
+	pnpm run build
 
 test:
-	npm run test
+	pnpm run test
 
 lint:
-	npm run lint
+	pnpm run lint
+	pnpm --silent run format:check
 
 publish:
-	npm publish --access public
+	pnpm publish --access public --no-git-checks
 
 tag:
 	git tag $(TAG) && git push --tags
@@ -30,3 +31,6 @@ deploy:
 	git push heroku master
 
 .PHONY: test
+
+install:
+	pnpm install
