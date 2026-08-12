@@ -21,7 +21,7 @@ const Task = ({ task }) => {
   const remove = async () => {
     try {
       await removeTask(task.id);
-    } catch (_err) {
+    } catch {
       buttonRef.current?.focus();
       toast('Network error');
     }
@@ -30,7 +30,7 @@ const Task = ({ task }) => {
   const toggleCompleted = async ({ target }) => {
     try {
       await toggleTaskCompleted({ id: task.id, completed: target.checked });
-    } catch (_err) {
+    } catch {
       toast('Network error');
     }
     checkboxRef.current?.focus();

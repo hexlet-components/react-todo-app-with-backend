@@ -30,7 +30,7 @@ const List = ({ list }) => {
     try {
       await removeList(list.id);
       dispatch(setCurrentListId(defaultListId));
-    } catch (_err) {
+    } catch {
       buttonRef.current?.focus();
       toast('Network error');
     }

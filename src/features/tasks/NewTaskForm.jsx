@@ -31,7 +31,7 @@ const NewTaskForm = () => {
     try {
       await addTask({ listId: currentListId, text });
       resetForm();
-    } catch (_error) {
+    } catch {
       toast('Network error');
     }
   };

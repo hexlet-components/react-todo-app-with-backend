@@ -23,7 +23,7 @@ const NewListForm = () => {
       const data = await addList({ name: text }).unwrap();
       dispatch(setCurrentListId(data.id));
       resetForm();
-    } catch (_error) {
+    } catch {
       toast('Network error');
     }
   };
