@@ -1,0 +1,43 @@
+name: Docker
+
+# Публикация образа в Docker Hub. Раньше это был job `deploy` внутри nodejs.yml
+# рядом с прогоном тестов; тесты переехали в nodeci.yml (пулреквесты) и в
+# release-please.yml (релиз), поэтому здесь остался только образ.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '26.x'
+          cache: pnpm
+
+      # Образ собирается только после зелёных проверок: иначе в Docker Hub
+      # уезжает сломанная сборка, а узнают об этом те, кто её вытянет.
+      - run: make install
+      - run: make lint
+      - run: make test
+
+      - uses: docker/setup-buildx-action@v4
+
+      - uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          cache-from: hexletcomponents/react-todo-app-with-backend:latest
+          cache-to: type=inline
+          tags: hexletcomponents/react-todo-app-with-backend:latest
