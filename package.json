@@ -19,9 +19,6 @@
     "format": "oxfmt --ignore-path=.oxfmtignore .",
     "format:check": "oxfmt --ignore-path=.oxfmtignore --check ."
   },
-  "simple-git-hooks": {
-    "pre-push": "make lint"
-  },
   "dependencies": {
     "@fastify/static": "^9.0.0",
     "@fastify/view": "^11.1.1",
@@ -50,12 +47,12 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "lefthook": "^2.1.10",
     "nodemon": "^3.1.14",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "postcss-preset-env": "^11.3.0",
     "sass": "^1.83.0",
-    "simple-git-hooks": "^2.13.1",
     "vite": "^7.0.0",
     "vitest": "^4.0.15"
   },
