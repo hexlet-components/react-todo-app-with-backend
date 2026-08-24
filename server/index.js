@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import fastifyStatic from "@fastify/static";
 import pointOfView from "@fastify/view";
 import fastify from "fastify";
-import Pug from "pug";
+import { Eta } from "eta";
 import addRoutes from "./routes.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,9 +17,11 @@ const appPath = path.join(__dirname, "..");
 const setUpViews = (app) => {
   const devHost = "http://localhost:8080";
   const domain = isDevelopment ? devHost : "";
+  const eta = new Eta();
+
   app.register(pointOfView, {
     engine: {
-      pug: Pug,
+      eta,
     },
     defaultContext: {
       assetPath: (filename) => `${domain}/assets/${filename}`,
