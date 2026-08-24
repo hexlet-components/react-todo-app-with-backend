@@ -2,7 +2,8 @@
 
 import { createRoot } from "react-dom/client";
 
-import "../assets/application.scss";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 
 import init from "./app/init.jsx";
 

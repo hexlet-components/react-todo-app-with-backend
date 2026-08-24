@@ -1,34 +1,48 @@
 // @ts-check
 
-import { ToastContainer } from "react-toastify";
+import { AppShell, Container, Grid, MantineProvider, Title } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+
 import ListsList from "../features/lists/ListsList.jsx";
 import NewListForm from "../features/lists/NewListForm.jsx";
 import NewTaskForm from "../features/tasks/NewTaskForm.jsx";
 import TasksList from "../features/tasks/TasksList.jsx";
 
+const headerHeight = 56;
+
 const App = () => (
-  <>
-    <div className="container p-4">
-      <nav className="navbar navbar-light bg-light mb-4">
-        <div className="container-fluid">
-          <span className="navbar-brand mb-0 h1">Hexlet Todos</span>
-        </div>
-      </nav>
-      <div className="row">
-        <div className="col-3 h-100 px-4 border-end">
-          <h5 className="mb-3">Lists</h5>
-          <NewListForm />
-          <ListsList />
-        </div>
-        <div className="col-5 px-4">
-          <h5 className="mb-3">Tasks</h5>
-          <NewTaskForm />
-          <TasksList />
-        </div>
-      </div>
-    </div>
-    <ToastContainer position="bottom-right" />
-  </>
+  <MantineProvider>
+    <Notifications position="bottom-right" />
+    <AppShell header={{ height: headerHeight }} padding="md">
+      <AppShell.Header>
+        <Container h="100%" size="lg">
+          <Title order={1} size="h4" lh={`${headerHeight}px`}>
+            Hexlet Todos
+          </Title>
+        </Container>
+      </AppShell.Header>
+      <AppShell.Main>
+        <Container size="lg">
+          <Grid gutter="xl">
+            <Grid.Col span={{ base: 12, sm: 4 }}>
+              <Title order={2} size="h5" mb="sm">
+                Lists
+              </Title>
+              <NewListForm />
+              <ListsList />
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, sm: 8 }}>
+              <Title order={2} size="h5" mb="sm">
+                Tasks
+              </Title>
+              <NewTaskForm />
+              <TasksList />
+            </Grid.Col>
+          </Grid>
+        </Container>
+      </AppShell.Main>
+    </AppShell>
+  </MantineProvider>
 );
 
 export default App;

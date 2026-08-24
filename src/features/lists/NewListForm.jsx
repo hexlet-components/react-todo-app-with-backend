@@ -1,75 +1,63 @@
 // @ts-check
 
-import cn from "classnames";
-import { Field, Form, Formik } from "formik";
-import { BsCheck } from "react-icons/bs";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { useAddListMutation, useGetListsQuery } from "../../services/api";
-import { setCurrentListId } from "../../store/currentListIdSlice";
+import { ActionIcon, Group, TextInput, VisuallyHidden } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
+
+import validateName from "../../lib/validateName.js";
+import { useAddList, useLists } from "../../services/api.js";
+import { useSetCurrentListId } from "../../store/index.js";
 
 const NewListForm = () => {
-  const dispatch = useDispatch();
-  const { data: lists, isLoading } = useGetListsQuery();
-  const [addList] = useAddListMutation();
+  const setCurrentListId = useSetCurrentListId();
+  const { data: lists, isLoading } = useLists();
+  const { mutateAsync: addList, isPending } = useAddList();
+
+  const form = useForm({
+    initialValues: { text: "" },
+    validateInputOnChange: false,
+    validate: {
+      text: (value) =>
+        validateName(
+          value,
+          (lists ?? []).map((list) => list.name),
+        ),
+    },
+  });
 
   if (isLoading) {
     return null;
   }
 
-  const onSubmit = async ({ text }, { resetForm }) => {
+  const handleSubmit = async ({ text }) => {
     try {
-      const data = await addList({ name: text }).unwrap();
-      dispatch(setCurrentListId(data.id));
-      resetForm();
+      const data = await addList({ name: text });
+      setCurrentListId(data.id);
+      form.reset();
     } catch {
-      toast("Network error");
+      notifications.show({ color: "red", message: "Network error" });
     }
   };
 
-  const listsNames = lists.map((i) => i.name);
-
-  const validationSchema = Yup.object().shape({
-    text: Yup.string().trim().required().min(3).max(20).notOneOf(listsNames),
-  });
-
   return (
-    <Formik
-      initialValues={{ text: "" }}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-      validateOnBlur={false}
-      validateOnMount={false}
-      validateOnChange={false}
-    >
-      {({ values, isSubmitting, errors, isValid, touched }) => (
-        <Form className="form mb-3" data-testid="list-form">
-          <label className="visually-hidden" htmlFor="new-list">
-            New list
-          </label>
-          <div className="input-group">
-            <Field
-              type="text"
-              name="text"
-              value={values.text}
-              className={cn(
-                "form-control",
-                !!touched.text && (isValid ? "is-valid" : "is-invalid"),
-              )}
-              placeholder="List name..."
-              readOnly={isSubmitting}
-              id="new-list"
-            />
-            <button className="btn btn-outline-success" type="submit" disabled={isSubmitting}>
-              <BsCheck />
-              <span className="visually-hidden">add list</span>
-            </button>
-            {errors.text && <div className="invalid-feedback">{errors.text}</div>}
-          </div>
-        </Form>
-      )}
-    </Formik>
+    <form onSubmit={form.onSubmit(handleSubmit)} data-testid="list-form">
+      <Group align="flex-start" gap="xs" mb="md" wrap="nowrap">
+        <TextInput
+          {...form.getInputProps("text")}
+          id="new-list"
+          name="text"
+          placeholder="List name..."
+          readOnly={isPending}
+          flex={1}
+          aria-label="New list"
+        />
+        <ActionIcon type="submit" variant="outline" color="green" size="lg" disabled={isPending}>
+          <IconCheck size={16} />
+          <VisuallyHidden>add list</VisuallyHidden>
+        </ActionIcon>
+      </Group>
+    </form>
   );
 };
 

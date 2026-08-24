@@ -1,74 +1,60 @@
 // @ts-check
 
-import cn from "classnames";
-import { Field, Form, Formik } from "formik";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { useAddTaskMutation, useGetTasksByListIdQuery } from "../../services/api";
-import { selectCurrentListId } from "../../store/currentListIdSlice";
+import { Button, Group, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
+
+import validateName from "../../lib/validateName.js";
+import { useAddTask, useTasks } from "../../services/api.js";
+import { useCurrentListId } from "../../store/index.js";
 
 const NewTaskForm = () => {
-  const currentListId = useSelector(selectCurrentListId);
+  const currentListId = useCurrentListId();
+  const { data: tasks, isLoading } = useTasks(currentListId);
+  const { mutateAsync: addTask, isPending } = useAddTask();
 
-  const { data: tasks, isLoading } = useGetTasksByListIdQuery(currentListId);
-  const [addTask] = useAddTaskMutation();
+  const form = useForm({
+    initialValues: { text: "" },
+    validateInputOnChange: false,
+    validate: {
+      text: (value) =>
+        validateName(
+          value,
+          (tasks ?? []).map((task) => task.text),
+        ),
+    },
+  });
 
   if (isLoading) {
     return null;
   }
 
-  const tasksNames = tasks.map((i) => i.text);
-
-  const validationSchema = Yup.object().shape({
-    text: Yup.string().trim().required().min(3).max(20).notOneOf(tasksNames),
-  });
-
-  const onSubmit = async ({ text }, { resetForm }) => {
+  const handleSubmit = async ({ text }) => {
     try {
       await addTask({ listId: currentListId, text });
-      resetForm();
+      form.reset();
     } catch {
-      toast("Network error");
+      notifications.show({ color: "red", message: "Network error" });
     }
   };
 
   return (
-    <Formik
-      initialValues={{ text: "" }}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-      validateOnBlur={false}
-      validateOnMount={false}
-      validateOnChange={false}
-    >
-      {({ isSubmitting, isValid, touched, errors }) => (
-        <>
-          <Form className="form mb-3" data-testid="task-form">
-            <label className="visually-hidden" htmlFor="new-task">
-              New task
-            </label>
-            <div className="input-group">
-              <Field
-                type="text"
-                className={cn("form-control", {
-                  "is-valid": isValid && touched.text,
-                  "is-invalid": !isValid && touched.text,
-                })}
-                placeholder="Please type text..."
-                name="text"
-                readOnly={isSubmitting}
-                id="new-task"
-              />
-              <button className="btn btn-outline-success" type="submit" disabled={isSubmitting}>
-                Add
-              </button>
-              {errors.text && <div className="invalid-feedback">{errors.text}</div>}
-            </div>
-          </Form>
-        </>
-      )}
-    </Formik>
+    <form onSubmit={form.onSubmit(handleSubmit)} data-testid="task-form">
+      <Group align="flex-start" gap="xs" mb="md" wrap="nowrap">
+        <TextInput
+          {...form.getInputProps("text")}
+          id="new-task"
+          name="text"
+          placeholder="Please type text..."
+          readOnly={isPending}
+          flex={1}
+          aria-label="New task"
+        />
+        <Button type="submit" variant="outline" color="green" disabled={isPending}>
+          Add
+        </Button>
+      </Group>
+    </form>
   );
 };
 

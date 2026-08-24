@@ -1,15 +1,15 @@
 // @ts-check
 
 import { useRef } from "react";
-import { toast } from "react-toastify";
+import { Button, Checkbox, Group } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 
-import { useRemoveTaskMutation, useToggleCompletedMutation } from "../../services/api.js";
+import { useRemoveTask, useToggleCompleted } from "../../services/api.js";
 
 const Task = ({ task }) => {
-  const [removeTask, { isLoading: isLoadingOnRemove }] = useRemoveTaskMutation();
-  const [toggleTaskCompleted, { isLoading: isLoadingOnToggleCompleted }] =
-    useToggleCompletedMutation();
-  const isLoading = isLoadingOnRemove || isLoadingOnToggleCompleted;
+  const { mutateAsync: removeTask, isPending: isRemoving } = useRemoveTask();
+  const { mutateAsync: toggleTaskCompleted, isPending: isToggling } = useToggleCompleted();
+  const isLoading = isRemoving || isToggling;
 
   const checkboxRef = useRef();
   const buttonRef = useRef();
@@ -19,7 +19,7 @@ const Task = ({ task }) => {
       await removeTask(task.id);
     } catch {
       buttonRef.current?.focus();
-      toast("Network error");
+      notifications.show({ color: "red", message: "Network error" });
     }
   };
 
@@ -27,39 +27,32 @@ const Task = ({ task }) => {
     try {
       await toggleTaskCompleted({ id: task.id, completed: target.checked });
     } catch {
-      toast("Network error");
+      notifications.show({ color: "red", message: "Network error" });
     }
     checkboxRef.current?.focus();
   };
 
   return (
-    <div className="row align-items-center justify-content-between">
-      <div className="col-8">
-        <label className="pointer" htmlFor={`task-${task.id}`}>
-          <input
-            id={`task-${task.id}`}
-            className="me-2"
-            type="checkbox"
-            onChange={toggleCompleted}
-            disabled={isLoading}
-            ref={checkboxRef}
-            checked={task.completed}
-          />
-          {task.completed ? <s>{task.text}</s> : task.text}
-        </label>
-      </div>
-      <div className="col-4 d-flex justify-content-end">
-        <button
-          onClick={remove}
-          className="btn btn-sm btn-danger"
-          type="button"
-          disabled={isLoading}
-          ref={buttonRef}
-        >
-          Remove
-        </button>
-      </div>
-    </div>
+    <Group justify="space-between" wrap="nowrap">
+      <Checkbox
+        id={`task-${task.id}`}
+        checked={task.completed}
+        onChange={toggleCompleted}
+        disabled={isLoading}
+        ref={checkboxRef}
+        label={task.completed ? <s>{task.text}</s> : task.text}
+      />
+      <Button
+        onClick={remove}
+        color="red"
+        size="xs"
+        variant="filled"
+        disabled={isLoading}
+        ref={buttonRef}
+      >
+        Remove
+      </Button>
+    </Group>
   );
 };
 

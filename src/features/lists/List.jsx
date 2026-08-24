@@ -1,62 +1,59 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 // @ts-check
 
-import cn from "classnames";
 import { useRef } from "react";
-import { BsX } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { ActionIcon, Anchor, Group, VisuallyHidden } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconX } from "@tabler/icons-react";
+
 import defaultListId from "../../config/index.js";
-import { useRemoveListMutation } from "../../services/api.js";
-import { selectCurrentListId, setCurrentListId } from "../../store/currentListIdSlice.js";
+import { useRemoveList } from "../../services/api.js";
+import { useCurrentListId, useSetCurrentListId } from "../../store/index.js";
 
 const List = ({ list }) => {
-  const dispatch = useDispatch();
-  const [removeList, { isLoading }] = useRemoveListMutation();
-
-  const currentListId = useSelector(selectCurrentListId);
+  const currentListId = useCurrentListId();
+  const setCurrentListId = useSetCurrentListId();
+  const { mutateAsync: removeList, isPending } = useRemoveList();
 
   const buttonRef = useRef();
 
   const setCurrent = (e) => {
     e.preventDefault();
-    dispatch(setCurrentListId(list.id));
+    setCurrentListId(list.id);
   };
 
   const remove = async () => {
     try {
       await removeList(list.id);
-      dispatch(setCurrentListId(defaultListId));
+      setCurrentListId(defaultListId);
     } catch {
       buttonRef.current?.focus();
-      toast("Network error");
+      notifications.show({ color: "red", message: "Network error" });
     }
   };
 
-  const currentClass = cn(
-    currentListId === list.id ? "link-primary" : "link-secondary",
-    "btn",
-    "btn-link",
-  );
-
   return (
-    <div className="d-flex justify-content-between align-items-start">
-      <button onClick={setCurrent} className={currentClass} type="button">
+    <Group justify="space-between" align="flex-start" wrap="nowrap">
+      <Anchor
+        component="button"
+        type="button"
+        onClick={setCurrent}
+        c={currentListId === list.id ? "blue" : "dimmed"}
+      >
         {list.name}
-      </button>
+      </Anchor>
       {list.removable && (
-        <button
+        <ActionIcon
+          variant="subtle"
+          color="red"
           onClick={remove}
-          className="btn link-danger"
-          disabled={isLoading}
+          disabled={isPending}
           ref={buttonRef}
-          type="button"
         >
-          <BsX />
-          <span className="visually-hidden">remove list</span>
-        </button>
+          <IconX size={16} />
+          <VisuallyHidden>remove list</VisuallyHidden>
+        </ActionIcon>
       )}
-    </div>
+    </Group>
   );
 };
 
