@@ -1,27 +1,18 @@
 // @ts-check
 
-import { Provider } from "react-redux";
-import { setLocale } from "yup";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import store from "../store/index.js";
 import App from "./App.jsx";
 
 const init = () => {
-  setLocale({
-    mixed: {
-      required: "Required!",
-      notOneOf: ({ value }) => `${value} already exists`,
-    },
-    string: {
-      min: ({ min }) => `Too small! Min ${min} symbols`,
-      max: ({ max }) => `Too long! Max ${max} symbols`,
-    },
-  });
+  // Клиент создаётся на запуск приложения, а не модульным синглтоном: иначе
+  // кеш переживал бы перезапуск и утекал между прогонами.
+  const queryClient = new QueryClient();
 
   const vdom = (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <App />
-    </Provider>
+    </QueryClientProvider>
   );
 
   return vdom;

@@ -1,30 +1,30 @@
 // @ts-check
 
-import { toast } from "react-toastify";
+import { Stack, Text } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+
 import Loader from "../../lib/Loader.jsx";
-import { useGetListsQuery } from "../../services/api.js";
+import { useLists } from "../../services/api.js";
 import List from "./List.jsx";
 
 const ListsList = () => {
-  const { data: lists, error, isLoading } = useGetListsQuery();
+  const { data: lists, error, isLoading } = useLists();
 
   if (isLoading) {
     return <Loader />;
   }
 
   if (error) {
-    toast("Network error");
-    return <span>Error while loading</span>;
+    notifications.show({ color: "red", message: "Network error" });
+    return <Text>Error while loading</Text>;
   }
 
   return (
-    <ul className="list-group list-group-flush" data-testid="lists">
+    <Stack gap="xs" data-testid="lists">
       {lists.map((list) => (
-        <li className="list-group-item" key={list.id}>
-          <List list={list} />
-        </li>
+        <List key={list.id} list={list} />
       ))}
-    </ul>
+    </Stack>
   );
 };
 

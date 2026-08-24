@@ -1,82 +1,73 @@
 // @ts-check
 
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import routes, { baseUrl } from "../api/routes.js";
 
-const httpMethods = {
-  GET: "GET",
-  POST: "POST",
-  PATCH: "PATCH",
-  DELETE: "DELETE",
-  PUT: "PUT",
+const client = axios.create({ baseURL: baseUrl });
+
+export const listsKey = ["lists"];
+export const tasksKey = (listId) => ["lists", listId, "tasks"];
+
+export const useLists = () =>
+  useQuery({
+    queryKey: listsKey,
+    queryFn: async () => (await client.get(routes.lists())).data,
+  });
+
+export const useTasks = (listId) =>
+  useQuery({
+    queryKey: tasksKey(listId),
+    queryFn: async () => (await client.get(routes.listTasks(listId))).data,
+  });
+
+export const useAddList = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (body) => (await client.post(routes.lists(), body)).data,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: listsKey }),
+  });
 };
 
-const tags = {
-  LIST: "LIST",
-  TASK: "TASK",
+export const useRemoveList = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => client.delete(routes.list(id)),
+    // Вместе со списком исчезают его задачи, поэтому сбрасывается и их кеш.
+    onSuccess: (_data, id) => {
+      queryClient.invalidateQueries({ queryKey: listsKey });
+      queryClient.removeQueries({ queryKey: tasksKey(id) });
+    },
+  });
 };
 
-export const api = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  endpoints: (builder) => ({
-    getLists: builder.query({
-      query: routes.lists,
-      providesTags: [tags.LIST],
-    }),
-    addList: builder.mutation({
-      query: (data) => ({
-        url: routes.lists(),
-        body: data,
-        method: httpMethods.POST,
-      }),
-      invalidatesTags: [tags.LIST],
-    }),
-    removeList: builder.mutation({
-      query: (id) => ({
-        url: routes.list(id),
-        method: httpMethods.DELETE,
-      }),
-      invalidatesTags: (_result, _error, id) => [{ type: tags.TASK, id }, tags.LIST],
-    }),
-    getTasksByListId: builder.query({
-      query: routes.listTasks,
-      providesTags: (_result, _error, id) => [{ type: tags.TASK, id }],
-    }),
-    addTask: builder.mutation({
-      query: ({ listId, ...body }) => ({
-        url: routes.listTasks(listId),
-        method: httpMethods.POST,
-        body,
-      }),
-      invalidatesTags: (result) => [{ type: tags.TASK, id: result.listId }],
-    }),
-    removeTask: builder.mutation({
-      query: (id) => ({
-        url: routes.task(id),
-        method: httpMethods.DELETE,
-      }),
-      invalidatesTags: [tags.TASK],
-    }),
-    toggleCompleted: builder.mutation({
-      query: ({ id, ...body }) => ({
-        url: routes.task(id),
-        method: httpMethods.PATCH,
-        body,
-      }),
-      invalidatesTags: [tags.TASK],
-    }),
-  }),
-  tagTypes: Object.values(tags),
-});
+export const useAddTask = () => {
+  const queryClient = useQueryClient();
 
-export const {
-  useGetListsQuery,
-  useGetTasksByListIdQuery,
-  useAddTaskMutation,
-  useAddListMutation,
-  useRemoveListMutation,
-  useRemoveTaskMutation,
-  useToggleCompletedMutation,
-} = api;
+  return useMutation({
+    mutationFn: async ({ listId, ...body }) =>
+      (await client.post(routes.listTasks(listId), body)).data,
+    onSuccess: (task) => queryClient.invalidateQueries({ queryKey: tasksKey(task.listId) }),
+  });
+};
+
+export const useRemoveTask = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id) => client.delete(routes.task(id)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["lists"] }),
+  });
+};
+
+export const useToggleCompleted = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...body }) => client.patch(routes.task(id), body),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["lists"] }),
+  });
+};

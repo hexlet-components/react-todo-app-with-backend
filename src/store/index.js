@@ -1,17 +1,17 @@
 // @ts-check
 
-import { configureStore } from "@reduxjs/toolkit";
-import { api } from "../services/api.js";
-// import listsReducer from '../features/lists/listsSlice.js';
-// import tasksReducer from '../features/tasks/tasksSlice.js';
-import currentListIdReducer from "./currentListIdSlice.js";
+import { create } from "zustand";
 
-const store = configureStore({
-  reducer: {
-    [api.reducerPath]: api.reducer,
-    currentListId: currentListIdReducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
-});
+import defaultListId from "../config/index.js";
 
-export default store;
+// Единственное клиентское состояние приложения это выбранный список. Данные
+// живут в кеше TanStack Query, поэтому своего стора им не нужно.
+const useAppStore = create((set) => ({
+  currentListId: defaultListId,
+  setCurrentListId: (id) => set({ currentListId: id }),
+}));
+
+export const useCurrentListId = () => useAppStore((state) => state.currentListId);
+export const useSetCurrentListId = () => useAppStore((state) => state.setCurrentListId);
+
+export default useAppStore;

@@ -1,10 +1,11 @@
 // @ts-check
 
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Stack, Text } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+
 import Loader from "../../lib/Loader.jsx";
-import { useGetTasksByListIdQuery } from "../../services/api.js";
-import { selectCurrentListId } from "../../store/currentListIdSlice.js";
+import { useTasks } from "../../services/api.js";
+import { useCurrentListId } from "../../store/index.js";
 import Task from "./Task.jsx";
 
 const sortComparer = (a, b) => {
@@ -16,32 +17,30 @@ const sortComparer = (a, b) => {
 };
 
 const TasksList = () => {
-  const currentListId = useSelector(selectCurrentListId);
-  const { data: tasks, error, isLoading } = useGetTasksByListIdQuery(currentListId);
+  const currentListId = useCurrentListId();
+  const { data: tasks, error, isLoading } = useTasks(currentListId);
 
   if (isLoading) {
     return <Loader />;
   }
   if (error) {
-    toast("Network error");
-    return <span>Error while loading</span>;
+    notifications.show({ color: "red", message: "Network error" });
+    return <Text>Error while loading</Text>;
   }
 
   if (tasks.length === 0) {
-    return <div>Tasks list is empty</div>;
+    return <Text>Tasks list is empty</Text>;
   }
 
   return (
-    <ul className="list-group" data-testid="tasks">
+    <Stack gap="xs" data-testid="tasks">
       {tasks
         .slice()
         .sort(sortComparer)
         .map((task) => (
-          <li className="list-group-item container" key={task.id}>
-            <Task task={task} />
-          </li>
+          <Task key={task.id} task={task} />
         ))}
-    </ul>
+    </Stack>
   );
 };
 
