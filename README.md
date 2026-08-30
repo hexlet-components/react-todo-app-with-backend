@@ -17,14 +17,14 @@ An example of ToDo-list implementation in React.
 
 ## How to contribute
 
-* Discuss the project on [Telegram Hexlet](https://t.me/hexletcommunity/12)
+- Discuss the project on [Telegram Hexlet](https://t.me/hexletcommunity/12)
 
 ## Requirements
 
-* Node.js >= 14
-* npm >= 7
-* make >= 4 (optional)
-* [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+- Node.js >= 14
+- npm >= 7
+- make >= 4 (optional)
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
 ## Setup
 
