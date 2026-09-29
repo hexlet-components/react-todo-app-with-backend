@@ -1,4 +1,0 @@
-pre-push:
-  commands:
-    lint:
-      run: make lint

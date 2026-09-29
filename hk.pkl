@@ -1,0 +1,11 @@
+// Git-хуки ставит `hk install`: на git 2.54+ это записи hook.* в .git/config
+// этого репозитория.
+amends "package://github.com/jdx/hk/releases/download/v2.4.0/hk@2.4.0#/Config.pkl"
+
+hooks {
+  ["pre-push"] {
+    steps {
+      ["lint"] { check = "make lint" }
+    }
+  }
+}
