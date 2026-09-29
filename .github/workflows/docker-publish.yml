@@ -14,12 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6
-
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '26.x'
-          cache: pnpm
+      - uses: jdx/mise-action@v5
 
       # Образ собирается только после зелёных проверок: иначе в Docker Hub
       # уезжает сломанная сборка, а узнают об этом те, кто её вытянет.
