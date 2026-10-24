@@ -5,3 +5,25 @@
 node = "26"
 pnpm = "12"
 hk = "2"
+pkl = "latest"
+typos = "latest"
+betterleaks = "latest"
+"npm:@commitlint/cli" = "latest"
+"npm:@commitlint/config-conventional" = "latest"
+rumdl = "latest"
+lychee = "latest"
+jactionlint = "latest"
+osv-scanner = "latest"
+hadolint = "latest"
+
+[tasks.setup]
+description = "Поставить зависимости и git-хуки"
+run = ["pnpm install", "hk install"]
+
+[tasks.check]
+description = "Все проверки, тот же набор, что гоняет CI"
+run = "hk check --all"
+
+[tasks.fix]
+description = "Применить автоисправления"
+run = "hk fix --all"

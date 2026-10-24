@@ -1,10 +1,8 @@
 # hexlet-todo
 
-[![github action status](https://github.com/hexlet-components/react-todo-app-with-backend/workflows/Node%20CI/badge.svg)](../../actions)
+[![github action status](https://github.com/hexlet-components/react-todo-app-with-backend/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-components/react-todo-app-with-backend/actions)
 
 An example of ToDo-list implementation in React.
-
-[Online](https://react-todo-app-with-backend.hexlet.app/)
 
 ## Зачем это нужно
 
